@@ -77,11 +77,12 @@ discernatron <- readLines("https://phabricator.wikimedia.org/paste/raw/5957/") %
     query = names(.x$scores),
     page_title = .x$title,
     score = as.numeric(unlist(.x$scores)),
-    daily_pvs = ceiling(.x$daily_views)
+    daily_pvs = as.integer(ceiling(.x$daily_views))
   ), .id = "page_id")
 
 # Double check for validity:
-any(!unique(results$page_id) %in% unique(discernatron$page_id)) # FALSE, good
+# any(!unique(results$page_id) %in% unique(discernatron$page_id)) # FALSE, good
+# any(!unique(discernatron$page_id) %in% unique(results$page_id)) # TRUE
 
 discernatron_pages <- dplyr::distinct(discernatron, page_id, page_title)
 results_pages <- dplyr::distinct(results, page_id, page_title)
@@ -105,6 +106,7 @@ discernatron %<>% dplyr::left_join(queries, by = "query")
 discernatron$query <- NULL
 
 discernatron %<>% dplyr::select(c(query_id, page_id, page_title, score, daily_pvs))
+discernatron <- discernatron[discernatron$page_id %in% unique(results$page_id), ]
 readr::write_tsv(discernatron, file.path("data", "discernatron_scores.tsv"))
 
 results$question_id <- as.numeric(factor(results$question, questions))
