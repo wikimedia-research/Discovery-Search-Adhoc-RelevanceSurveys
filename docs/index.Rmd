@@ -1,0 +1,114 @@
+---
+title: "Search Relevance Surveys"
+subtitle: "Judging With Crowd-sourced Opinions and Machine Learning"
+author:
+  - "<a href='https://meta.wikimedia.org/wiki/User:EBernhardson_(WMF)'>Erik Bernhardson</a>"
+  - "<a href='https://meta.wikimedia.org/wiki/User:TJones_(WMF)'>Trey Jones</a>"
+  - "<a href='https://meta.wikimedia.org/wiki/User:MPopov_(WMF)'>Mikhail Popov</a>"
+  - "<a href='https://meta.wikimedia.org/wiki/User:DTankersley_(WMF)'>Deb Tankersley</a>"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+abstract: >
+  ...
+output:
+  html_document:
+    # Table of Contents
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    toc_depth: 3
+    code_folding: hide
+    # Figures
+    fig_width: 16
+    fig_height: 8
+    # Theme
+    theme: readable
+    # Files
+    self_contained: false
+    keep_md: false
+    # Extras
+    mathjax: https://tools-static.wmflabs.org/cdnjs/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+    md_extensions: +raw_html +markdown_in_html_blocks +tex_math_dollars +fancy_lists +startnum +lists_without_preceding_blankline
+---
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(magrittr)
+library(glue)
+library(ggplot2)
+```
+```{css, echo=FALSE}
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro');
+body, p {
+  font-family: 'Source Serif Pro', serif;
+  font-size: 12pt;
+}
+pre, code {
+  font-family: 'Source Code Pro', monospace;
+}
+table, tr, td, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+.caption, caption {
+  color: #2c3e50;
+  font-size: 10pt;
+  width: 90%;
+  margin: 5px auto;
+  text-align: left;
+}
+p.abstract {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+  font-size: 14pt !important;
+}
+.footnotes {
+  margin-bottom: 80%;
+}
+```
+```{js, echo=FALSE}
+$( function() {
+  /* Lets the user click on the images to view them in full resolution. */
+  $( "img" ).wrap( function() {
+    var link = $( '<a/>' );
+    link.attr( 'href', $( this ).attr( 'src' ));
+    link.attr( 'target', '_blank' );
+    return link;
+  } );
+} );
+$("p.abstract").text("Executive Summary");
+```
+<p style="text-align: center;"><a title="By Github project phacility/phabricator & w:de:User:Perhelion [Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AFavicon-Phabricator-WM.png"><img width="16" alt="Favicon-Phabricator-WM" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Favicon-Phabricator-WM.png"/></a> <a href="https://phabricator.wikimedia.org/T175048", title="T175048">Phabricator ticket</a> | <a title="By The Open Source Initiative [CC BY 2.5 (http://creativecommons.org/licenses/by/2.5)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AOpen_Source_Initiative_keyhole.svg"><img width="16" alt="Open Source Initiative keyhole" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/16px-Open_Source_Initiative_keyhole.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys">Open source analysis</a> | <a title="Font Awesome by Dave Gandy - http://fortawesome.github.com/Font-Awesome [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3ADownload_font_awesome.svg"><img width="16" alt="Download font awesome" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Download_font_awesome.svg/16px-Download_font_awesome.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys/blob/master/data">Open data</a></p>
+
+## Background
+
+```{r questions}
+questions <- data.frame(question_id = 1:4, question = c(
+  "If you searched for '...', would this article be a good result?", 
+  "Would you click on this page when searching for '...'?",
+  "If someone searched for '...', would they want to read this article?", 
+  "If you searched for '...', would this article be relevant?"
+))
+```
+
+## Discernatron
+
+```{r relevance_labels}
+discernatron %<>%
+  dplyr::mutate(
+    relevance2 = dplyr::case_when(
+      score > 1 ~ "good",
+      TRUE ~ "bad"
+    ),
+    relevance3 = dplyr::case_when(
+      score < 1 ~ "bad",
+      score < 2 ~ "okay",
+      TRUE ~ "good"
+    ),
+    relevance5 = dplyr::case_when(
+      score == 0 ~ "worst",
+      score < 1 ~ "worse",
+      score < 2 ~ "okay",
+      score < 3 ~ "better",
+      score == 3 ~ "best"
+    )
+  )
+```
