@@ -21,7 +21,7 @@ query <- "SELECT
   ts,
   session_id,
   article_id AS page_id,
-  pages.page_title AS page_title,
+  CONVERT(pages.page_title USING utf8) AS page_title,
   choice
 FROM (
   SELECT
