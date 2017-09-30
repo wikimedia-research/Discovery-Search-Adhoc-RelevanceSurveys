@@ -32,9 +32,14 @@ output:
 ---
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(knitr)
+library(kableExtra)
 library(magrittr)
 library(glue)
 library(ggplot2)
+if (is.null(opts_knit$get("rmarkdown.pandoc.to"))) {
+  setwd("docs")
+}
 ```
 ```{css, echo=FALSE}
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro');
@@ -81,34 +86,116 @@ $("p.abstract").text("Executive Summary");
 ## Background
 
 ```{r questions}
-questions <- data.frame(question_id = 1:4, question = c(
+questions <- data.frame(question_id = as.character(1:4), question = c(
   "If you searched for '...', would this article be a good result?", 
   "Would you click on this page when searching for '...'?",
   "If someone searched for '...', would they want to read this article?", 
   "If you searched for '...', would this article be relevant?"
-))
+), stringsAsFactors = FALSE)
+```
+
+## Search Queries
+
+```{r queries}
+queries <- readr::read_tsv("../data/search_queries.tsv", col_types = "cc")
 ```
 
 ## Discernatron
 
-```{r relevance_labels}
-discernatron %<>%
+![Discernatron example](figures/example_discernatron.png)
+
+[Discernatron](https://www.mediawiki.org/wiki/Discernatron) is a search relevance tool developed by the Discovery department. Its goal is to help improve search relevance - showing articles that are most relevant to search queries - with human assistance. We asked for people to use Discernatron to review search suggestions across multiple search tools. Respondents will be presented a set of search results from four tools - [CirrusSearch](https://www.mediawiki.org/wiki/CirrusSearch) ([Wiki search](https://www.mediawiki.org/wiki/Help:Searching)), Bing, Google, and DuckDuckGo. For each query users will be provided the set of titles found asked to rank each title from 1 to 4, or leave the title unranked.
+
+| Labels | Label  | Score Range |
+|:------:|:------:|:-----------:|
+| k = 2  | bad    | [0, 1)      |
+| k = 2  | good   | [1, 3]      |
+| k = 3  | bad    | [0, 1)      |
+| k = 3  | okay   | [1, 2)      |
+| k = 3  | good   | [2, 3]      |
+| k = 5  | worst  | 0           |
+| k = 5  | worse  | (0, 1)      |
+| k = 5  | okay   | [1, 2)      |
+| k = 5  | better | [2, 3)      |
+| k = 5  | best   | 3           |
+
+```{r scores}
+scores <- readr::read_tsv("../data/discernatron_scores.tsv", col_types = "cccdi")
+scores %<>%
+  dplyr::left_join(queries, by = "query_id") %>%
   dplyr::mutate(
-    relevance2 = dplyr::case_when(
+    relevance2 = factor(dplyr::case_when(
       score > 1 ~ "good",
       TRUE ~ "bad"
-    ),
-    relevance3 = dplyr::case_when(
+    ), c("bad", "good")),
+    relevance3 = factor(dplyr::case_when(
       score < 1 ~ "bad",
       score < 2 ~ "okay",
       TRUE ~ "good"
-    ),
-    relevance5 = dplyr::case_when(
+    ), c("bad", "okay", "good")),
+    relevance5 = factor(dplyr::case_when(
       score == 0 ~ "worst",
       score < 1 ~ "worse",
       score < 2 ~ "okay",
       score < 3 ~ "better",
       score == 3 ~ "best"
-    )
-  )
+    ), c("worst", "worse", "okay", "better", "best"))
+  ) %>%
+  dplyr::rename(discernatron_score = score)
 ```
+
+```{r pages}
+pages <- dplyr::distinct(scores, query, page_title) %>%
+  dplyr::select(query, article = page_title) %>%
+  dplyr::arrange(query, article)
+```
+
+## Responses
+
+```{r responses}
+responses <- readr::read_tsv("../data/survey_responses.tsv.gz", col_types = "DccTiccc") %>%
+  dplyr::left_join(queries, by = "query_id") %>%
+  dplyr::left_join(questions, by = "question_id")
+```
+
+```{r aggregates}
+aggregates <- responses %>%
+  dplyr::filter(survey_id == 1) %>%
+  dplyr::group_by(question_id, query_id, page_id) %>%
+  dplyr::summarize(
+    times_asked = n(),
+    user_score = (sum(choice == "yes") - sum(choice == "no") + 0.5 * sum(choice == "unsure") + 1) / (sum(choice %in% c("yes", "no", "unsure")) + 1),
+    engagement = sum(choice %in% c("yes", "no", "unsure", "dismiss") / times_asked),
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::left_join(scores, by = c("query_id", "page_id")) %>%
+  dplyr::left_join(questions, by = "question_id")
+```
+
+```{r dataviz_engagement}
+aggregates %>%
+  dplyr::filter(times_asked > 1) %>%
+  ggplot(aes(x = discernatron_score, y = engagement)) +
+  geom_point(alpha = 0.1) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  facet_wrap(~ question) +
+  labs(x = "Discernatron score", y = "Engagement with survey") +
+  wmf::theme_facet()
+```
+
+```{r dataviz_scores}
+aggregates %>%
+  dplyr::filter(times_asked > 1) %>%
+  ggplot(aes(y = user_score, x = discernatron_score, color = relevance5)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  facet_wrap(~ question) +
+  labs(
+    x = "Discernatron score for a page",
+    y = "User score for a page",
+    color = "5 categories of relevance"
+  ) +
+  wmf::theme_facet()
+```
+
+## Training Classifiers
