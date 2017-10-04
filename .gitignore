@@ -26,3 +26,5 @@ vignettes/*.pdf
 docs/index_cache
 
 docs/index_files/
+
+data/all.json

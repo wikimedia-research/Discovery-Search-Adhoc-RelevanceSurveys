@@ -54,11 +54,13 @@ results <- do.call(rbind, lapply(
     result$ts <- lubridate::ymd_hms(result$ts)
     result$page_id %<>% as.character
     result$page_title %<>% gsub("_", " ", ., fixed = TRUE)
-    result %<>%
-      dplyr::group_by(session_id) %>%
-      dplyr::arrange(ts) %>%
-      dplyr::mutate(survey_id = cumsum(!is.na(choice))) %>%
-      dplyr::ungroup()
+    result <- {
+      result %>%
+        dplyr::group_by(session_id) %>%
+        dplyr::arrange(ts) %>%
+        dplyr::mutate(survey_id = cumsum(!is.na(choice))) %>%
+        dplyr::ungroup()
+    }
     return(result)
   }
 ))
@@ -69,54 +71,29 @@ if (!dir.exists("data")) {
   dir.create("data", recursive = TRUE)
 }
 
-# https://phabricator.wikimedia.org/P5957
-discernatron <- readLines("https://phabricator.wikimedia.org/paste/raw/5957/") %>%
-  paste0(collapse = "") %>%
-  jsonlite::fromJSON(simplifyVector = FALSE) %>%
-  purrr::map_dfr(~ dplyr::data_frame(
-    query = names(.x$scores),
-    page_title = .x$title,
-    score = as.numeric(unlist(.x$scores)),
-    daily_pvs = as.integer(ceiling(.x$daily_views))
-  ), .id = "page_id")
-
-# Double check for validity:
-# any(!unique(results$page_id) %in% unique(discernatron$page_id)) # FALSE, good
-# any(!unique(discernatron$page_id) %in% unique(results$page_id)) # TRUE
-
-discernatron_pages <- dplyr::distinct(discernatron, page_id, page_title)
-results_pages <- dplyr::distinct(results, page_id, page_title)
-pages <- dplyr::left_join(discernatron_pages, results_pages, by = "page_id") %>%
-  dplyr::mutate(discrep = page_title.x != page_title.y) %>%
-  dplyr::select(page_id, page_title = page_title.y)
-discernatron$page_title <- NULL; results$page_title <- NULL
-discernatron %<>% dplyr::left_join(pages, by = "page_id")
-
 questions <- unique(results$question); dump("questions", "")
 
-queries <- dplyr::distinct(discernatron, query) %>%
+queries <- results %>%
   dplyr::arrange(query) %>%
+  dplyr::distinct(query) %>%
   dplyr::mutate(query_id = as.numeric(factor(query))) %>%
   dplyr::select(query_id, query)
 readr::write_tsv(queries, file.path("data", "search_queries.tsv"))
 
 results %<>% dplyr::left_join(queries, by = "query")
 results$query <- NULL
-discernatron %<>% dplyr::left_join(queries, by = "query")
-discernatron$query <- NULL
 
-discernatron %<>% dplyr::select(c(query_id, page_id, page_title, score, daily_pvs))
-discernatron <- discernatron[discernatron$page_id %in% unique(results$page_id), ]
-readr::write_tsv(discernatron, file.path("data", "discernatron_scores.tsv"))
+# pages <- results %>%
+#   dplyr::arrange(page_id, page_title) %>%
+#   dplyr::distinct(page_id, page_title)
 
-results$question_id <- as.numeric(factor(results$question, questions))
+# Finish processing events:
 results$question_id <- as.numeric(factor(results$question, questions))
 results$question <- NULL
 results %<>%
   dplyr::mutate(date = as.Date(ts)) %>%
   dplyr::arrange(date, query_id, session_id, ts, survey_id, question_id, page_id, choice) %>%
   dplyr::select(c(date, query_id, session_id, ts, survey_id, question_id, page_id, choice))
-
 readr::write_tsv(results, file.path("data", "survey_responses.tsv"))
 system("gzip --force data/survey_responses.tsv")
 
@@ -128,3 +105,57 @@ system("gzip --force data/survey_responses.tsv")
 # sum(results$choice %in% c("yes", "no", "unsure"))
 # sum(results$choice == "timeout")
 # sum(results$choice == "dismiss")
+
+# API accepts 50 page IDs at a time max, so we need to separate them into batches:
+n_pages <- length(unique(pages$page_id))
+n_batches <- ceiling(n_pages / 50)
+batches <- as.vector(vapply(1:n_batches, rep.int, numeric(50), times = 50))
+pages$batch <- batches[1:n_pages]
+
+# Verify that we ended up with at most 50 pages per batch:
+max(table(pages$batch)) # ok, good
+
+url <- "https://en.wikipedia.org/w/api.php"
+
+# Utility function for using in the purrr::map_df call below:
+json2df <- function(page) {
+  return(dplyr::bind_rows(
+    lapply(page$pageviews, . %>% data.frame(pvs = .)),
+    .id = "date"
+  ))
+}
+
+ua <- httr::user_agent("MPopov (WMF) | GitHub: wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys")
+
+results <- do.call(rbind, lapply(unique(pages$batch), function(i) {
+  message("Processing batch ", i, "...")
+  page_ids <- paste0(pages$page_id[pages$batch == i], collapse = "|")
+  # Using POST instead of GET because otherwise the URL would too long due to 50 IDs
+  response <- httr::POST(
+    url, body = list(
+      action = "query",
+      prop = "info",
+      format = "json",
+      pageids = page_ids
+    ), ua
+  )
+  content <- httr::content(response)
+  result <- purrr::map_df(
+    content$query$pages,
+    ~ data.frame(
+      page_title = .x$title,
+      page_length = .x$length,
+      stringsAsFactors = FALSE
+    ),
+    .id = "page_id"
+  )
+  return(result)
+}))
+
+results %<>% dplyr::rename(page_title_api = page_title)
+pages %<>% dplyr::rename(page_title_db = page_title)
+pages %<>% dplyr::left_join(results, by = "page_id")
+pages %<>% dplyr::select(-batch)
+pages %<>% dplyr::arrange(page_id)
+# View(pages[pages$page_title_db != pages$page_title_api, ])
+readr::write_tsv(pages, file.path("data", "page_info.tsv"))
