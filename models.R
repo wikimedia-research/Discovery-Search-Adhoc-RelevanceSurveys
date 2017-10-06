@@ -37,7 +37,7 @@ platform_wday_traffic <- pageviews %>%
     platform_wday = paste0(platform, ":", wday)
   ) %>%
   dplyr::select(-c(views, platform, wday)) %>%
-  tidyr::spread(platform_wday, traffic, fill = 0)
+  tidyr::spread(platform_wday, traffic, fill = "no traffic")
 platform_traffic <- pageviews %>%
   dplyr::group_by(page_id, platform) %>%
   dplyr::summarize(views = median(views)) %>%
@@ -50,7 +50,7 @@ platform_traffic <- pageviews %>%
     TRUE ~ "very high traffic"
   ))) %>%
   dplyr::select(-views) %>%
-  tidyr::spread(platform, traffic, fill = 0)
+  tidyr::spread(platform, traffic, fill = "no traffic")
 wday_traffic <- pageviews %>%
   dplyr::group_by(page_id, date) %>%
   dplyr::summarize(views = sum(views)) %>%
@@ -66,7 +66,7 @@ wday_traffic <- pageviews %>%
     TRUE ~ "very high traffic"
   ))) %>%
   dplyr::select(-views) %>%
-  tidyr::spread(wday, traffic, fill = 0)
+  tidyr::spread(wday, traffic, fill = "no traffic")
 overall_traffic <- pageviews %>%
   dplyr::group_by(page_id, date) %>%
   dplyr::summarize(views = sum(views)) %>%
@@ -176,30 +176,38 @@ meta_params <- list(
     gamma = 0, min_child_weight = 1, colsample_bytree = 1
   ),
   "C5.0" = expand.grid(
-    trials = c(1, 5, 10, 25, 50, 100, 250, 500),
+    # C5.0
+    trials = c(1, 5, 10, 25, 50, 75, 100),
     model = "tree", winnow = TRUE
   ),
   "nb" = expand.grid(
+    # Naive Bayes
     fL = c(0, 0.3, 0.5, 0.8, 1, 2),
-    usekernel = c(TRUE, FALSE),
-    adjust = c(1, 1.5, 2)
+    adjust = c(1, 1.5, 2),
+    usekernel = TRUE # held constant
   ),
   "multinom" = expand.grid(
-    decay = c(0.1, 0.3, 0.5, 0.7)
+    # Penalized Multinomial Regression
+    decay = c(0, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1)
   ),
   "rf" = expand.grid(
+    # Random Forest
     mtry = c(2, 3, 4, 5)
+  ),
+  "nnet" = expand.grid(
+    size = seq(1, 15, 2),
+    decay = c(0, 1e-4, 1e-3, 1e-2, 1e-1)
   )
 )
 
-cv_fit <- function(method, covars, data) {
+cv_fit <- function(method, covars, data, folds = 10, reps = 5) {
   # following instructions from http://topepo.github.io/caret/parallel-processing.html
   # library(doMC); registerDoMC(cores = 4)
   # install.packages(c("caret", "MLmetrics", "e1071", "xgboost"))
   # upsampled_train <- caret::upSample(imbalanced_train, imbalanced_train$Class)
   model_control <- caret::trainControl(
     # 10-fold cross-validation repeated twice:
-    method = "repeatedcv", number = 10, repeats = 3,
+    method = "repeatedcv", number = folds, repeats = reps,
     # Up-sample to correct for class imbalance:
     sampling = "up", summaryFunction = caret::multiClassSummary,
     # Return predicted probabilities and track progress:
@@ -208,20 +216,23 @@ cv_fit <- function(method, covars, data) {
   model <- caret::train(
     Class ~ ., data = data[, c("Class", covars)],
     trControl = model_control, na.action = na.omit,
-    method = method, tuneGrid = meta_params[[method]]
+    method = method, tuneGrid = meta_params[[method]],
+    trace = FALSE # suppress nnet optimizati info
   )
   return(model)
 }
 
 log_filename <- paste0("caret-", format(Sys.time(), "%Y%m%d%H%M%S"), ".log")
+ts <- function() format(Sys.time(), "%Y-%m-%d %I:%M%p")
 models <- lapply(c("2 classes" = 2, "3 classes" = 3, "5 classes" = 5), function(k) {
   lapply(per_question, function(question) {
     lapply(features, function(covars) {
-      feats <- paste0(covars, collapse = ", ")
-      methods <- names(meta_params); names(methods) <- methods
+      feats <- paste0("- ", paste0(covars, collapse = "\n- "))
+      methods <- names(meta_params)
+      names(methods) <- methods
       lapply(methods, function(method) {
-        msg <- glue::glue("{timestamp()}\nTuning & training a model to predict {k} classes using {method} on data with the following features:\n  {feats}")
-        readr::write_lines(msg, log_filename, append = TRUE)
+        msg <- glue::glue("# Update at {ts()}\nTuning & training a model to predict {k} classes using {method} on data with the following features:\n{feats}\n\n")
+        message(msg); readr::write_lines(msg, log_filename, append = TRUE)
         question %>%
           dplyr::filter(set == "train") %>%
           dplyr::rename_(.dots = list("Class" = paste0("relevance", k))) %>%
@@ -231,7 +242,7 @@ models <- lapply(c("2 classes" = 2, "3 classes" = 3, "5 classes" = 5), function(
   })
 })
 readr::write_lines(
-  glue::glue("{timestamp()}\nFinished tuning & training. Saving results to disk..."),
+  glue::glue("# Update at {ts()}\nFinished tuning & training. Saving results to disk..."),
   log_filename, append = TRUE
 )
 save(
@@ -239,6 +250,7 @@ save(
   file = file.path(base_dir, "tuned_models.RData"),
   compress = "gzip"
 )
+readr::write_lines("Done.", log_filename, append = TRUE)
 
 # all methods: http://topepo.github.io/caret/available-models.html
 # can't use the methods listed at http://topepo.github.io/caret/train-models-by-tag.html#two-class-only
