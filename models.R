@@ -14,8 +14,8 @@ aggregates <- responses %>%
   dplyr::left_join(pages, by = "page_id") %>%
   dplyr::left_join(queries, by = "query_id") %>%
   dplyr::inner_join(scores, by = c("query_id", "page_id")) %>%
-  dplyr::rename(discernatron_score = score) %>%
-  dplyr::mutate(reliable = as.integer(reliable))
+  dplyr::rename(discernatron_score = score)
+  # dplyr::mutate(reliable = as.integer(reliable))
 
 # Create pageview-based features:
 platform_wday_traffic <- pageviews %>%
@@ -110,13 +110,19 @@ per_question <- augmented_aggregates %>%
   { split(., .$question) } %>%
   lapply(function(df) {
     df$obs_id <- 1:nrow(df)
-    per_class <- split(df, df$relevance5)
-    training_idxs <- unlist(lapply(per_class, function(x) {
+    per_reliability <- split(df, df$reliable)
+    training_idxs <- lapply(per_reliability, function(x) {
+      # use 80% of total data for training (remaining 20% will be used for evaluation):
       training_idx <- sample.int(nrow(x), training_proportion * nrow(x), replace = FALSE)
-      return(x$obs_id[training_idx])
-    }))
+      # use 80% of ^THAT 80% will be used as training data for base learners at level 1:
+      training_lvl1 <- sample(training_idx, training_proportion * length(training_idx), replace = FALSE)
+      # use remaining 20% of the training data for a super-learner at level 2:
+      training_lvl2 <- setdiff(training_idx, training_lvl1)
+      return(list(lvl1 = x$obs_id[training_lvl1], lvl2 = x$obs_id[training_lvl2]))
+    })
     df$set <- "test"
-    df$set[df$obs_id %in% training_idxs] <- "train"
+    df$set[df$obs_id %in% unlist(lapply(training_idxs, function(x) { return(x$lvl1) }))] <- "train1"
+    df$set[df$obs_id %in% unlist(lapply(training_idxs, function(x) { return(x$lvl2) }))] <- "train2"
     df$obs_id <- NULL
     return(df)
   })
@@ -200,22 +206,23 @@ meta_params <- list(
   )
 )
 
-cv_fit <- function(method, covars, data, folds = 10, reps = 5) {
-  # following instructions from http://topepo.github.io/caret/parallel-processing.html
-  # library(doMC); registerDoMC(cores = 4)
-  # install.packages(c("caret", "MLmetrics", "e1071", "xgboost"))
-  # upsampled_train <- caret::upSample(imbalanced_train, imbalanced_train$Class)
-  model_control <- caret::trainControl(
+library(caret)
+
+model_control <- function(folds, reps) {
+  return(trainControl(
     # 10-fold cross-validation repeated twice:
     method = "repeatedcv", number = folds, repeats = reps,
     # Up-sample to correct for class imbalance:
     sampling = "up", summaryFunction = caret::multiClassSummary,
     # Return predicted probabilities and track progress:
     classProbs = TRUE, verboseIter = TRUE, allowParallel = FALSE
-  )
-  model <- caret::train(
+  ))
+}
+
+cv_fit <- function(method, covars, data, folds = 10, reps = 5) {
+  model <- train(
     Class ~ ., data = data[, c("Class", covars)],
-    trControl = model_control, na.action = na.omit,
+    trControl = model_control(folds, reps), na.action = na.omit,
     method = method, tuneGrid = meta_params[[method]],
     trace = FALSE # suppress nnet optimizati info
   )
@@ -224,22 +231,39 @@ cv_fit <- function(method, covars, data, folds = 10, reps = 5) {
 
 log_filename <- paste0("caret-", format(Sys.time(), "%Y%m%d%H%M%S"), ".log")
 ts <- function() format(Sys.time(), "%Y-%m-%d %I:%M%p")
-models <- lapply(c("2 classes" = 2, "3 classes" = 3, "5 classes" = 5), function(k) {
+models <- lapply(c("reliable" = TRUE, "unreliable" = FALSE), function(reliability) {
+  lapply(c("2 classes" = 2, "3 classes" = 3, "5 classes" = 5), function(k) {
   lapply(per_question, function(question) {
     lapply(features, function(covars) {
+      ## debug: reliability=TRUE;k=5;question=per_question[[1]];covars=features$`survey, page info, and pageviews`
       feats <- paste0("- ", paste0(covars, collapse = "\n- "))
       methods <- names(meta_params)
       names(methods) <- methods
-      lapply(methods, function(method) {
-        msg <- glue::glue("# Update at {ts()}\nTuning & training a model to predict {k} classes using {method} on data with the following features:\n{feats}\n\n")
-        message(msg); readr::write_lines(msg, log_filename, append = TRUE)
+      # First Level
+      base_learners <- lapply(methods, function(method) {
+        msg <- glue::glue("# Update at {ts()}\nTuning & training a base learner '{method}' to predict {k} {ifelse(reliability, 'reliably', 'unreliably')}-determined relevance labels on data with the following features:\n{feats}\n\n")
+        message(msg)
+        readr::write_lines(msg, log_filename, append = TRUE)
         question %>%
-          dplyr::filter(set == "train") %>%
+          dplyr::filter(set == "train1", reliable == reliability) %>%
           dplyr::rename_(.dots = list("Class" = paste0("relevance", k))) %>%
           cv_fit(method, covars, .)
       })
+      # Second Level
+      new_data <- question %>%
+          dplyr::filter(set == "train2") %>%
+          dplyr::rename_(.dots = list("Class" = paste0("relevance", k)))
+      predicted_classes <- as.data.frame(lapply(base_learners, function(base_learner) {
+        predictions <- predict(base_learner, new_data[, covars])
+        return(predictions)
+      }))
+      meta_data <- cbind(Class = new_data$Class, predicted_classes)
+      # The super learner is a Bayesian network classifier using Naive Bayes
+      meta_learner <- bnclassify::bnc("nb", "Class", meta_data, smooth = 0.3)
+      return(list(base = base_learners, meta = meta_learner))
     })
   })
+})
 })
 readr::write_lines(
   glue::glue("# Update at {ts()}\nFinished tuning & training. Saving results to disk..."),
