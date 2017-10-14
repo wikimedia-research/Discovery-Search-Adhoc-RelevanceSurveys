@@ -100,7 +100,7 @@ augmented_aggregates <- aggregates %>%
   dplyr::left_join(wday_traffic, by = "page_id") %>%
   dplyr::left_join(overall_traffic, by = "page_id")
 
-rm(responses, pageviews, aggregates, pages, scores, questions, queries, base_dir)
+rm(responses, pageviews, aggregates, pages, scores, questions, queries)
 rm(platform_wday_traffic, platform_traffic, wday_traffic, overall_traffic)
 
 set.seed(42)
@@ -219,7 +219,7 @@ model_control <- function(folds, reps) {
   ))
 }
 
-cv_fit <- function(method, covars, data, folds = 10, reps = 5) {
+cv_fit <- function(method, covars, data, folds = 5, reps = 2) {
   model <- train(
     Class ~ ., data = data[, c("Class", covars)],
     trControl = model_control(folds, reps), na.action = na.omit,
@@ -231,26 +231,28 @@ cv_fit <- function(method, covars, data, folds = 10, reps = 5) {
 
 log_filename <- paste0("caret-", format(Sys.time(), "%Y%m%d%H%M%S"), ".log")
 ts <- function() format(Sys.time(), "%Y-%m-%d %I:%M%p")
+if (!dir.exists("models")) dir.create("models")
 models <- lapply(c("reliable" = TRUE, "unreliable" = FALSE), function(reliability) {
   lapply(c("2 classes" = 2, "3 classes" = 3, "5 classes" = 5), function(k) {
-  lapply(per_question, function(question) {
+  lapply(per_question, function(df) {
+    question <- df$question[1]
     lapply(features, function(covars) {
-      ## debug: reliability=TRUE;k=5;question=per_question[[1]];covars=features$`survey, page info, and pageviews`
+      ## debug: reliability=TRUE;k=5;df=per_question[[1]];covars=features$`survey, page info, and pageviews`
       feats <- paste0("- ", paste0(covars, collapse = "\n- "))
       methods <- names(meta_params)
       names(methods) <- methods
       # First Level
       base_learners <- lapply(methods, function(method) {
-        msg <- glue::glue("# Update at {ts()}\nTuning & training a base learner '{method}' to predict {k} {ifelse(reliability, 'reliably', 'unreliably')}-determined relevance labels on data with the following features:\n{feats}\n\n")
+        msg <- glue::glue("Update at {ts()}:\nTuning & training a base learner '{method}' to predict {k} {ifelse(reliability, 'reliably', 'unreliably')}-determined relevance labels on data from question \"{question}\" with the following features:\n{feats}\n\n")
         message(msg)
         readr::write_lines(msg, log_filename, append = TRUE)
-        question %>%
+        df %>%
           dplyr::filter(set == "train1", reliable == reliability) %>%
           dplyr::rename_(.dots = list("Class" = paste0("relevance", k))) %>%
           cv_fit(method, covars, .)
       })
       # Second Level
-      new_data <- question %>%
+      new_data <- df %>%
           dplyr::filter(set == "train2") %>%
           dplyr::rename_(.dots = list("Class" = paste0("relevance", k)))
       predicted_classes <- as.data.frame(lapply(base_learners, function(base_learner) {
@@ -260,18 +262,32 @@ models <- lapply(c("reliable" = TRUE, "unreliable" = FALSE), function(reliabilit
       meta_data <- cbind(Class = new_data$Class, predicted_classes)
       # The super learner is a Bayesian network classifier using Naive Bayes
       meta_learner <- bnclassify::bnc("nb", "Class", meta_data, smooth = 0.3)
-      return(list(base = base_learners, meta = meta_learner))
+      # Write base learners and meta learner to disk:
+      base_cache <- tempfile("model-cache-base_", "models", ".rds")
+      readr::write_rds(base_learners, base_cache, compress = "gz")
+      readr::write_lines(
+        glue::glue("Base learners saved to {base_cache}"),
+        log_filename, append = TRUE
+      )
+      meta_cache <- tempfile("model-cache-meta_", "models", ".rds")
+      readr::write_rds(meta_learner, meta_cache, compress = "gz")
+      readr::write_lines(
+        glue::glue("Meta learner saved to {meta_cache}"),
+        log_filename, append = TRUE
+      )
+      # Only return filename pointers to cached learners:
+      return(list(base = base_cache, meta = meta_cache))
     })
   })
 })
 })
 readr::write_lines(
-  glue::glue("# Update at {ts()}\nFinished tuning & training. Saving results to disk..."),
+  glue::glue("Update at {ts()}\nFinished tuning & training. Saving results to disk..."),
   log_filename, append = TRUE
 )
 save(
   list = c("models", "features"),
-  file = file.path(base_dir, "tuned_models.RData"),
+  file = file.path("models", "model-index.RData"),
   compress = "gzip"
 )
 readr::write_lines("Done.", log_filename, append = TRUE)
