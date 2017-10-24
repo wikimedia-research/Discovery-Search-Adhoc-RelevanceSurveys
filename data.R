@@ -1,4 +1,3 @@
-library(magrittr)
 base_dir <- ifelse(dir.exists("data"), "data", "../data")
 
 questions <- data.frame(question_id = 1L:4L, question = c(
