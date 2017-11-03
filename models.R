@@ -23,8 +23,8 @@ if (file.exists(split_path)) {
     dplyr::summarize(
       times_asked = n(),
       user_score = (sum(choice == "yes") - sum(choice == "no")) / (sum(choice %in% c("yes", "no")) + 1),
-      prop_unsure = sum(choice == "unsure") / (sum(choice %in% c("yes", "no", "unsure")) + 1) - 0.5,
-      engagement = sum(choice %in% c("yes", "no", "unsure", "dismiss") / times_asked) - 0.5
+      prop_unsure = sum(choice == "unsure") / (sum(choice %in% c("yes", "no", "unsure")) + 1),
+      engagement = sum(choice %in% c("yes", "no", "unsure", "dismiss") / times_asked)
     ) %>%
     dplyr::ungroup() %>%
     dplyr::left_join(questions, by = "question_id") %>%
@@ -32,7 +32,6 @@ if (file.exists(split_path)) {
     dplyr::left_join(queries, by = "query_id") %>%
     dplyr::inner_join(scores, by = c("query_id", "page_id")) %>%
     dplyr::rename(discernatron_score = score)
-  # dplyr::mutate(reliable = as.integer(reliable))
 
   # Create pageview-based features:
   log_message(glue::glue("Update at {ts()}: Creating pageview-based features"), log_filename)
@@ -125,15 +124,10 @@ if (file.exists(split_path)) {
       training_idxs <- lapply(per_reliability, function(x) {
         # use 80% of total data for training (remaining 20% will be used for evaluation):
         training_idx <- sample.int(nrow(x), training_proportion * nrow(x), replace = FALSE)
-        # use 80% of ^THAT 80% will be used as training data for base learners at level 1:
-        training_lvl1 <- sample(training_idx, training_proportion * length(training_idx), replace = FALSE)
-        # use remaining 20% of the training data for a super-learner at level 2:
-        training_lvl2 <- setdiff(training_idx, training_lvl1)
-        return(list(lvl1 = x$obs_id[training_lvl1], lvl2 = x$obs_id[training_lvl2]))
+        return(x$obs_id[training_idx])
       })
       df$set <- "test"
-      df$set[df$obs_id %in% unlist(lapply(training_idxs, function(x) { return(x$lvl1) }))] <- "train1"
-      df$set[df$obs_id %in% unlist(lapply(training_idxs, function(x) { return(x$lvl2) }))] <- "train2"
+      df$set[df$obs_id %in% unlist(training_idxs)] <- "train"
       df$obs_id <- NULL
       return(df)
     })
@@ -142,59 +136,15 @@ if (file.exists(split_path)) {
 }
 
 # Sets of features:
-log_message(glue::glue("Update at {ts()}: Making features sets"), log_filename)
-features <- list(
-  `survey-only` = c(
-    "user_score", "prop_unsure", "engagement"
-  ),
-  `survey & page info` = c(
-    "user_score", "prop_unsure", "engagement",
-    "page_size", "is_category", "is_talk", "is_file", "is_list", "has_prefix"
-  ),
-  `survey & pageviews` = c(
-    "user_score", "prop_unsure", "engagement",
-    "traffic"
-  ),
-  `survey, page info, and pageviews` = c(
-    "user_score", "prop_unsure", "engagement",
-    "page_size", "is_category", "is_talk", "is_file", "is_list", "has_prefix",
-    "traffic"
-  ),
-  `survey, page info, and pageviews-by-weekday` = c(
-    "user_score", "prop_unsure", "engagement",
-    "page_size", "is_category", "is_talk", "is_file", "is_list", "has_prefix",
-    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"
-  ),
-  `survey, page info, and pageviews-by-platform` = c(
-    "user_score", "prop_unsure", "engagement",
-    "page_size", "is_category", "is_talk", "is_file", "is_list", "has_prefix",
-    "desktop", "mobile-app", "mobile-web"
-  ),
-  `survey, page info, pageviews-by-weekday, and pageviews-by-platform` = c(
-    "user_score", "prop_unsure", "engagement",
-    "page_size", "is_category", "is_talk", "is_file", "is_list", "has_prefix",
-    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
-    "desktop", "mobile-app", "mobile-web"
-  ),
-  `survey, page info, and pageviews-by-platform-and-weekday` = c(
-    "user_score", "prop_unsure", "engagement",
-    "page_size", "is_category", "is_talk", "is_file", "is_list", "has_prefix",
-    "desktop:friday", "desktop:monday", "desktop:saturday", "desktop:sunday", "desktop:thursday", "desktop:tuesday", "desktop:wednesday",
-    "mobile:friday", "mobile:monday", "mobile:saturday", "mobile:sunday", "mobile:thursday", "mobile:tuesday", "mobile:wednesday"
-  ),
-  `survey, z-norm page info, and z-norm pageviews` = c(
-    "user_score", "prop_unsure", "engagement",
-    "is_category", "is_talk", "is_file", "is_list", "has_prefix",
-    "z_loglength", "znorm_lviews"
-  ),
-  `survey, normalized page info, and normalized pageviews` = c(
-    "user_score", "prop_unsure", "engagement",
-    "is_category", "is_talk", "is_file", "is_list", "has_prefix",
-    "scaled_loglength", "scaled_lviews"
+log_message(glue::glue("Update at {ts()}: Constructing features sets & checking for validity"), log_filename)
+source("features.R")
+if (!all(unlist(lapply(features, function(feats) all(feats %in% names(augmented_aggregates)))))) {
+  log_message(glue::glue("Error at {ts()}: Feature set misspecification, cannot proceed"), log_filename)
+  stop(
+    "data does not have the following feature(s): ",
+    paste0(unlist(lapply(features, function(feats) feats[!feats %in% names(augmented_aggregates)])), collapse = ", ")
   )
-)
-
-# lapply(features, function(feats) all(feats %in% names(augmented_aggregates)))
+}
 
 log_message(glue::glue("Update at {ts()}: Making parameter grids for tuning"), log_filename)
 meta_params <- list(
@@ -229,7 +179,14 @@ meta_params <- list(
   "nnet" = expand.grid(
     size = seq(1, 15, 2),
     decay = c(1e-4, 1e-3, 1e-2, 1e-1)
-  )
+  ),
+  "dnn" = dplyr::filter(expand.grid(
+    layer1 = seq(1, 7, 2),
+    layer2 = c(0, seq(1, 5, 2)),
+    layer3 = 0:3,
+    hidden_dropout = c(0, 0.2, 0.5),
+    visible_dropout = c(0, 0.2)
+  ), !(layer2 == 0 & layer3 > 0))
 )
 
 library(caret)
@@ -250,6 +207,16 @@ cv_fit <- function(method, covars, data) {
       method = method, tuneGrid = meta_params[[method]],
       trace = FALSE # suppress nnet optimizatin info
     )
+  } else if (method == "dnn") {
+    model <- train(
+      Class ~ ., data = data[, c("Class", covars)],
+      trControl = model_control, na.action = na.omit,
+      method = method, tuneGrid = meta_params[[method]],
+      momentum = 0.9, learningrate = 0.95, numepochs = 300,
+      learningrate_scale = 0.9, # learning rate will be mutiplied by this after every iter
+      activationfun = "tanh",   # better than sigm & has a centering effect on neurons
+      batchsize = 256           # batches of training data that are used to calculate error and update coefficients
+    )
   } else {
     model <- train(
       Class ~ ., data = data[, c("Class", covars)],
@@ -265,15 +232,15 @@ index_path <- file.path("models", "model-index.csv")
 if (file.exists(index_path)) {
   log_message(glue::glue("Update at {ts()}: Loading index of cached models from {index_path}"), log_filename)
   # Used for checking if any given combo was already done:
-  model_index <- readr::read_csv(index_path, col_types = "icclcc")
+  model_index <- readr::read_csv(index_path, col_types = "Tiicclcc"); i <- max(model_index$last_i)
   # Reason: sometimes the process gets killed for no reason, so rather than having to start
   # all over each time, this is used to continue.
   log_message(glue::glue("Update at {ts()}: Resuming tuning & training process"), log_filename)
 } else {
   log_message(glue::glue("Update at {ts()}: Starting tuning & training process"), log_filename)
-  model_index <- NULL
+  model_index <- NULL; i <- 0
 }
-models <- names(meta_params); names(models) <- models; i <- 0
+models <- names(meta_params); names(models) <- models
 total_models <- prod(c(
   classes = 3, reliabily_states = 2,
   questions = length(per_question),
@@ -283,6 +250,8 @@ total_models <- prod(c(
 for (k in c(2, 3, 5)) {
   for (reliability in c(TRUE, FALSE)) {
     for (q in names(per_question)) {
+      base_data <- dplyr::filter(per_question[[q]], set == "train", reliable == reliability) %>%
+            dplyr::rename_(.dots = list("Class" = paste0("relevance", k)))
       for (f in names(features)) {
         # debug: k=2;reliability=T;q=names(per_question)[1];f=names(features)[1]
         # Check if the combo has already been done & cached:
@@ -304,18 +273,14 @@ for (k in c(2, 3, 5)) {
             glue::glue("Update at {ts()} ({progression}):\nTuning & training a base learner '{model}' to predict {k} {ifelse(reliability, 'reliably', 'unreliably')}-determined relevance labels on data from question \"{q}\" with the following features:\n{feats}\n\n"),
             log_filename
           )
-          base_data <- dplyr::filter(per_question[[q]], set == "train1", reliable == reliability) %>%
-            dplyr::rename_(.dots = list("Class" = paste0("relevance", k)))
           return(cv_fit(model, features[[f]], base_data))
         })
         # Second Level
-        new_data <- dplyr::filter(per_question[[q]], set == "train2") %>%
-          dplyr::rename_(.dots = list("Class" = paste0("relevance", k)))
         predicted_classes <- as.data.frame(lapply(base_learners, function(base_learner) {
-          predictions <- predict(base_learner, new_data[, features[[f]]])
+          predictions <- predict(base_learner, base_data[, features[[f]]])
           return(predictions)
         }))
-        meta_data <- cbind(Class = new_data$Class, predicted_classes)
+        meta_data <- cbind(Class = base_data$Class, predicted_classes)
         # The super learner is a Bayesian network classifier using Naive Bayes
         meta_learner <- bnclassify::bnc("nb", "Class", meta_data, smooth = 0.3)
         # Write base learners and meta learner to disk:
@@ -328,10 +293,10 @@ for (k in c(2, 3, 5)) {
         # Write filename pointers (to cached learners) to an index:
         readr::write_csv(
           dplyr::data_frame(
-            classes = k, question = q, features = f,
+            timestamp = lubridate::now(tzone = "America/Los_Angeles"),
+            last_i = i, classes = k, question = q, features = f,
             discernatron_reliable = reliability,
-            base_learners = base_cache,
-            meta_learner = meta_cache
+            base_learners = base_cache, meta_learner = meta_cache
           ),
           append = file.exists(file.path("models", "model-index.csv")),
           path = file.path("models", "model-index.csv")

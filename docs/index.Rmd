@@ -28,12 +28,11 @@ output:
     keep_md: false
     # Extras
     mathjax: https://tools-static.wmflabs.org/cdnjs/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-    md_extensions: +raw_html +markdown_in_html_blocks +tex_math_dollars +fancy_lists +startnum +lists_without_preceding_blankline
+    md_extensions: +raw_html +markdown_in_html_blocks +tex_math_dollars +fancy_lists +startnum +lists_without_preceding_blankline +table_captions
 ---
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(knitr)
-library(kableExtra)
 library(magrittr)
 library(glue)
 library(ggplot2)
@@ -81,24 +80,9 @@ $( function() {
 } );
 $("p.abstract").text("Executive Summary");
 ```
-<p style="text-align: center;"><a title="By Github project phacility/phabricator & w:de:User:Perhelion [Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AFavicon-Phabricator-WM.png"><img width="16" alt="Favicon-Phabricator-WM" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Favicon-Phabricator-WM.png"/></a> <a href="https://phabricator.wikimedia.org/T175048", title="T175048">Phabricator ticket</a> | <a title="By The Open Source Initiative [CC BY 2.5 (http://creativecommons.org/licenses/by/2.5)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AOpen_Source_Initiative_keyhole.svg"><img width="16" alt="Open Source Initiative keyhole" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/16px-Open_Source_Initiative_keyhole.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys">Open source analysis</a> | <a title="Font Awesome by Dave Gandy - http://fortawesome.github.com/Font-Awesome [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3ADownload_font_awesome.svg"><img width="16" alt="Download font awesome" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Download_font_awesome.svg/16px-Download_font_awesome.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys/blob/master/data">Open data</a></p>
+<p style="text-align: center;"><a title="By Github project phacility/phabricator & w:de:User:Perhelion [Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AFavicon-Phabricator-WM.png"><img width="16" alt="Favicon-Phabricator-WM" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Favicon-Phabricator-WM.png"/></a> <a href="https://phabricator.wikimedia.org/T175048" title="T175048">Phabricator ticket</a> | <a title="By The Open Source Initiative [CC BY 2.5 (http://creativecommons.org/licenses/by/2.5)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AOpen_Source_Initiative_keyhole.svg"><img width="16" alt="Open Source Initiative keyhole" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/16px-Open_Source_Initiative_keyhole.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys">Open source analysis</a> | <a title="Font Awesome by Dave Gandy - http://fortawesome.github.com/Font-Awesome [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3ADownload_font_awesome.svg"><img width="16" alt="Download font awesome" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Download_font_awesome.svg/16px-Download_font_awesome.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys/blob/master/data">Open data</a></p>
 
 ## Background
-
-```{r questions}
-questions <- data.frame(question_id = as.character(1:4), question = c(
-  "If you searched for '...', would this article be a good result?", 
-  "Would you click on this page when searching for '...'?",
-  "If someone searched for '...', would they want to read this article?", 
-  "If you searched for '...', would this article be relevant?"
-), stringsAsFactors = FALSE)
-```
-
-## Search Queries
-
-```{r queries}
-queries <- readr::read_tsv("../data/search_queries.tsv", col_types = "cc")
-```
 
 ## Discernatron
 
@@ -119,83 +103,296 @@ queries <- readr::read_tsv("../data/search_queries.tsv", col_types = "cc")
 | k = 5  | better | [2, 3)      |
 | k = 5  | best   | 3           |
 
-```{r scores}
-scores <- readr::read_tsv("../data/discernatron_scores.tsv", col_types = "cccdi")
-scores %<>%
-  dplyr::left_join(queries, by = "query_id") %>%
-  dplyr::mutate(
-    relevance2 = factor(dplyr::case_when(
-      score > 1 ~ "good",
-      TRUE ~ "bad"
-    ), c("bad", "good")),
-    relevance3 = factor(dplyr::case_when(
-      score < 1 ~ "bad",
-      score < 2 ~ "okay",
-      TRUE ~ "good"
-    ), c("bad", "okay", "good")),
-    relevance5 = factor(dplyr::case_when(
-      score == 0 ~ "worst",
-      score < 1 ~ "worse",
-      score < 2 ~ "okay",
-      score < 3 ~ "better",
-      score == 3 ~ "best"
-    ), c("worst", "worse", "okay", "better", "best"))
-  ) %>%
-  dplyr::rename(discernatron_score = score)
-```
-
-```{r pages}
-pages <- dplyr::distinct(scores, query, page_title) %>%
-  dplyr::select(query, article = page_title) %>%
-  dplyr::arrange(query, article)
-```
-
-## Responses
-
-```{r responses}
-responses <- readr::read_tsv("../data/survey_responses.tsv.gz", col_types = "DccTiccc") %>%
-  dplyr::left_join(queries, by = "query_id") %>%
-  dplyr::left_join(questions, by = "question_id")
-```
-
-```{r aggregates}
-aggregates <- responses %>%
-  dplyr::filter(survey_id == 1) %>%
-  dplyr::group_by(question_id, query_id, page_id) %>%
-  dplyr::summarize(
-    times_asked = n(),
-    user_score = (sum(choice == "yes") - sum(choice == "no") + 0.5 * sum(choice == "unsure") + 1) / (sum(choice %in% c("yes", "no", "unsure")) + 1),
-    engagement = sum(choice %in% c("yes", "no", "unsure", "dismiss") / times_asked),
-  ) %>%
-  dplyr::ungroup() %>%
-  dplyr::left_join(scores, by = c("query_id", "page_id")) %>%
-  dplyr::left_join(questions, by = "question_id")
-```
-
-```{r dataviz_engagement}
-aggregates %>%
-  dplyr::filter(times_asked > 1) %>%
-  ggplot(aes(x = discernatron_score, y = engagement)) +
-  geom_point(alpha = 0.1) +
-  scale_y_continuous(labels = scales::percent_format()) +
-  facet_wrap(~ question) +
-  labs(x = "Discernatron score", y = "Engagement with survey") +
-  wmf::theme_facet()
-```
-
-```{r dataviz_scores}
-aggregates %>%
-  dplyr::filter(times_asked > 1) %>%
-  ggplot(aes(y = user_score, x = discernatron_score, color = relevance5)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "black") +
-  facet_wrap(~ question) +
-  labs(
-    x = "Discernatron score for a page",
-    y = "User score for a page",
-    color = "5 categories of relevance"
-  ) +
-  wmf::theme_facet()
-```
+Table:  How Discernatron scores were discretized into relevance labels.
 
 ## Training Classifiers
+
+The classifiers trained are:
+
+- [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression) ([multinomial](https://en.wikipedia.org/wiki/Multinomial_logistic_regression) when using more than 2 labels), generically coded as "multinom" in the Results tables
+- [random forest](https://en.wikipedia.org/wiki/Random_forest), coded as "rf" in the Results tables
+- [neural network](https://en.wikipedia.org/wiki/Artificial_neural_network), coded as "nnet" in the Results tables
+- [naïve Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier), coded as "nb" in the Results tables
+- [gradient-boosted trees](https://en.wikipedia.org/wiki/Gradient_boosting#Gradient_tree_boosting) (via [XGBoost](https://github.com/dmlc/xgboost)), coded as "xgbTree" in the Results tables
+- [C5.0](https://en.wikipedia.org/wiki/C4.5_algorithm) trees, coded as "C5.0" in the Results tables
+
+In addition to the 6 classifiers listed above (which we will refer to as *base learners*), we also trained a super learner in a technique called *[stacking](https://en.wikipedia.org/wiki/Ensemble_learning#Stacking)*. The base learners are trained in the first stage and are then asked to make predictions. Those predictions are then used as features (one feature for each base learner) to train the super learner in the second stage. Specifically, we chose [Bayesian network](https://en.wikipedia.org/wiki/Bayesian_network) (via the [bnclassify](https://github.com/bmihaljevic/bnclassify) package) as the super learner, coded as "meta" in the Results tables.
+
+We utilized the [caret](https://github.com/topepo/caret) package to perform hyperparameter tuning (via 5-fold cross-validation) and training (using 80% of the available data) of each base learner for a combination of each of the following:
+
+- 4 questions we asked:
+  - "If someone searched for '...', would they want to read this article?"
+  - "If you searched for '...', would this article be a good result?"
+  - "If you searched for '...', would this article be relevant?"
+  - "Would you click on this page when searching for '...'?"
+- 3 types of response: 2 vs 3 vs 5 labels
+- 2 types of Discernatron scores that would be discretized into labels: *reliable* vs *unreliable*
+  - reliability based on [Krippendorff's alpha](https://en.wikipedia.org/wiki/Krippendorff%27s_alpha) exceeding a threshold of 0.45
+- 14 different feature sets:
+  - **survey-only**
+    - score summarizing users' responses
+    - proportion who answered unsure
+    - engagement with the relevance survey
+  - **survey & page info**
+    - score, % unsure, engagement
+    - page size label based on page byte length:
+      - "tiny" (&le;1 kB)
+      - "small" (1-10 kB)
+      - "medium" (10-50 kB)
+      - "large" (50-100 kB)
+      - "huge" (&ge;100 kB)
+    - indicator variables of whether the page is a:
+      - Category page
+      - Talk page
+      - File page
+      - list (e.g. "List of..."-type articles)
+  - **survey & pageviews**
+    - score, % unsure, engagement
+    - median pageview (pv) traffic during September 2017, categorized as:
+      - "no" (&le;1 pvs/day)
+      - "low" (1-10 pvs/day)
+      - "medium" (10-100 pvs/day)
+      - "high" (100-1000 pvs/day)
+      - "very high" (&ge;1000 pvs/day)
+  - **survey, page info, and traffic**
+    - score, % unsure, engagement
+    - discrete page size and page type
+  - **survey, page info, and traffic-by-weekday**
+    - score, % unsure, engagement
+    - discrete page size and page type
+    - traffic on Monday-Sunday
+  - **survey, page info, and traffic-by-platform**
+    - score, % unsure, engagement
+    - discrete page size and page type
+    - traffic on desktop vs mobile web vs mobile app
+  - **survey, page info, traffic-by-weekday, and traffic-by-platform**
+    - score, % unsure, engagement
+    - discrete page size and page type
+    - traffic on Monday-Sunday
+    - traffic on desktop vs mobile web vs mobile app
+  - **survey, page info, and traffic-by-platform-and-weekday**
+    - score, % unsure, engagement
+    - discrete page size and page type
+    - traffic on weekday from platform (7x3=21 combinations)
+  - 6 configurations of **survey, page info, page size, and pageviews**
+    - score, % unsure, engagement, page type
+    - page size (in bytes) and pageviews (median/average in September 2017) using one of the following:
+      - raw values
+      - standardized (Z-score) raw values
+      - normalized raw values
+      - log<sub>10</sub>-transformed values
+      - standardized (Z-score) log<sub>10</sub>-transformed values
+      - normalized log<sub>10</sub>-transformed values
+
+Standardization via means the predictor was centered around the mean and scaled by the standard deviation. Normalization was achieved via dividing by the maximum observed value and then subtracting 0.5 to center it around 0.
+
+To correct for class imbalance, instances were [upsampled](https://en.wikipedia.org/wiki/Oversampling_and_undersampling_in_data_analysis).
+
+## Results
+
+```{r}
+model_accuracy <- readr::read_tsv(file.path("..", "models", "model-accuracy.tsv"))
+model_accuracy$features %<>% factor
+model_accuracy$classifier %<>% factor
+model_accuracy$classes %<>% factor
+```
+
+```{r, eval=FALSE}
+model_accuracy %>%
+  dplyr::filter(classes == 2) %>%
+  dplyr::mutate(reliability = dplyr::if_else(discernatron_reliable, "Reliable", "Unreliable")) %>%
+  dplyr::group_by(question, features, reliability) %>%
+  dplyr::summarize(avg = mean(accuracy)) %>%
+  dplyr::ungroup() %>%
+  ggplot(aes(x = reliability, color = reliability)) +
+  geom_linerange(aes(ymin = 0, ymax = avg)) +
+  geom_label(aes(label = sprintf("%.2f%%", 100 * avg), y = avg)) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  scale_color_brewer(palette = "Set1") +
+  facet_grid(question ~ features) +
+  labs(
+    color = "Reliability of Discernatron Scores", y = "Average accuracy", x = NULL,
+    title = "Binary classifier performance across questions, feature sets, and Discernatron score reliability"
+  ) +
+  wmf::theme_facet(14, "Source Sans Pro", clean_xaxis = TRUE)
+```
+
+```{r, eval=FALSE}
+model_accuracy %>%
+  dplyr::filter(classes == 2) %>%
+  dplyr::mutate(is_meta = dplyr::if_else(classifier == "meta", "Super Learner", "Base Learners")) %>%
+  dplyr::group_by(question, features, is_meta) %>%
+  dplyr::summarize(avg = mean(accuracy)) %>%
+  dplyr::ungroup() %>%
+  ggplot(aes(x = is_meta, color = is_meta)) +
+  geom_linerange(aes(ymin = 0, ymax = avg)) +
+  geom_label(aes(label = sprintf("%.2f%%", 100 * avg), y = avg)) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  scale_color_brewer(palette = "Set1") +
+  facet_grid(question ~ features) +
+  labs(
+    color = "Classifier(s)", y = "Average accuracy", x = NULL,
+    title = "Binary classifier performance across questions and feature sets"
+  ) +
+  wmf::theme_facet(14, "Source Sans Pro", clean_xaxis = TRUE)
+```
+
+### Question 1
+
+#### Reliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "If someone searched for '...', would they want to read this article?",
+    discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"If someone searched for '...', would they want to read this article?\" and relevance labels based on reliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
+
+#### Unreliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "If someone searched for '...', would they want to read this article?",
+    !discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"If someone searched for '...', would they want to read this article?\" and relevance labels based on unreliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
+
+### Question 2
+
+#### Reliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "If you searched for '...', would this article be a good result?",
+    discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be a good result?\" and relevance labels based on reliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
+
+#### Unreliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "If you searched for '...', would this article be a good result?",
+    !discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be a good result?\" and relevance labels based on unreliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
+
+### Question 3
+
+#### Reliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "If you searched for '...', would this article be relevant?",
+    discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be relevant?\" and relevance labels based on reliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
+
+#### Unreliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "If you searched for '...', would this article be relevant?",
+    !discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be relevant?\" and relevance labels based on unreliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
+
+### Question 4
+
+#### Reliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "Would you click on this page when searching for '...'?",
+    discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"Would you click on this page when searching for '...'?\" and relevance labels based on reliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
+
+#### Unreliable Scores
+
+```{r}
+DT::datatable(
+  dplyr::select(dplyr::filter(
+    model_accuracy,
+    question == "Would you click on this page when searching for '...'?",
+    !discernatron_reliable
+  ), -c(question, discernatron_reliable)),
+  filter = "top",
+  extensions = "Buttons",
+  options = list(
+    pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
+    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+  ),
+  caption = "Accuracy of models trained on responses to the question \"Would you click on this page when searching for '...'?\" and relevance labels based on unreliable Discernatron scores."
+) %>% DT::formatPercentage("accuracy", 3)
+```
