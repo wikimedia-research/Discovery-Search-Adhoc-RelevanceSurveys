@@ -138,11 +138,11 @@ if (file.exists(split_path)) {
 # Sets of features:
 log_message(glue::glue("Update at {ts()}: Constructing features sets & checking for validity"), log_filename)
 source("features.R")
-if (!all(unlist(lapply(features, function(feats) all(feats %in% names(augmented_aggregates)))))) {
+if (!all(unlist(lapply(features, function(feats) all(feats %in% names(per_question[[1]])))))) {
   log_message(glue::glue("Error at {ts()}: Feature set misspecification, cannot proceed"), log_filename)
   stop(
     "data does not have the following feature(s): ",
-    paste0(unlist(lapply(features, function(feats) feats[!feats %in% names(augmented_aggregates)])), collapse = ", ")
+    paste0(unlist(lapply(features, function(feats) feats[!feats %in% names(per_question[[1]])])), collapse = ", ")
   )
 }
 
@@ -181,11 +181,11 @@ meta_params <- list(
     decay = c(1e-4, 1e-3, 1e-2, 1e-1)
   ),
   "dnn" = dplyr::filter(expand.grid(
-    layer1 = seq(1, 7, 2),
-    layer2 = c(0, seq(1, 5, 2)),
+    layer1 = seq(5, 25, 5),
+    layer2 = c(0, seq(5, 15, 5)),
     layer3 = 0:3,
     hidden_dropout = c(0, 0.2, 0.5),
-    visible_dropout = c(0, 0.2)
+    visible_dropout = 0
   ), !(layer2 == 0 & layer3 > 0))
 )
 
@@ -193,8 +193,8 @@ library(caret)
 
 cv_fit <- function(method, covars, data) {
   model_control <- trainControl(
-    # 5-fold cross-validation repeated twice:
-    method = "repeatedcv", number = 5, repeats = 2,
+    # 5-fold cross-validation:
+    method = "repeatedcv", number = 5, repeats = 1,
     # Up-sample to correct for class imbalance:
     sampling = "up", summaryFunction = caret::multiClassSummary,
     # Return predicted probabilities and track progress:
@@ -212,7 +212,7 @@ cv_fit <- function(method, covars, data) {
       Class ~ ., data = data[, c("Class", covars)],
       trControl = model_control, na.action = na.omit,
       method = method, tuneGrid = meta_params[[method]],
-      momentum = 0.9, learningrate = 0.95, numepochs = 300,
+      momentum = 0.9, learningrate = 0.95, numepochs = 150,
       learningrate_scale = 0.9, # learning rate will be mutiplied by this after every iter
       activationfun = "tanh",   # better than sigm & has a centering effect on neurons
       batchsize = 256           # batches of training data that are used to calculate error and update coefficients
@@ -232,7 +232,7 @@ index_path <- file.path("models", "model-index.csv")
 if (file.exists(index_path)) {
   log_message(glue::glue("Update at {ts()}: Loading index of cached models from {index_path}"), log_filename)
   # Used for checking if any given combo was already done:
-  model_index <- readr::read_csv(index_path, col_types = "Tiicclcc"); i <- max(model_index$last_i)
+  model_index <- readr::read_csv(index_path); i <- max(model_index$last_i)
   # Reason: sometimes the process gets killed for no reason, so rather than having to start
   # all over each time, this is used to continue.
   log_message(glue::glue("Update at {ts()}: Resuming tuning & training process"), log_filename)
@@ -245,7 +245,7 @@ total_models <- prod(c(
   classes = 3, reliabily_states = 2,
   questions = length(per_question),
   feature_sets = length(features),
-  base_learners = length(models)
+  learners = length(models) + 1
 ))
 for (k in c(2, 3, 5)) {
   for (reliability in c(TRUE, FALSE)) {
@@ -280,7 +280,7 @@ for (k in c(2, 3, 5)) {
           predictions <- predict(base_learner, base_data[, features[[f]]])
           return(predictions)
         }))
-        meta_data <- cbind(Class = base_data$Class, predicted_classes)
+        meta_data <- cbind(Class = base_data$Class, predicted_classes); i <<- i + 1
         # The super learner is a Bayesian network classifier using Naive Bayes
         meta_learner <- bnclassify::bnc("nb", "Class", meta_data, smooth = 0.3)
         # Write base learners and meta learner to disk:

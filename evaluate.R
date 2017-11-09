@@ -1,6 +1,6 @@
 library(magrittr)
 suppressPackageStartupMessages(suppressMessages(suppressWarnings({
-  model_index <- readr::read_csv(file.path("models", "model-index.csv"), col_types = "Tiicclcc")
+  model_index <- readr::read_csv(file.path("models", "model-index.csv"))
   per_question <- readr::read_rds(file.path("data", "per_question.rds"))
 })))
 source("features.R")
