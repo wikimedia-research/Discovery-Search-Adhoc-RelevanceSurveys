@@ -5,7 +5,7 @@ suppressPackageStartupMessages(suppressMessages(suppressWarnings({
 })))
 source("features.R")
 
-model_accuracy <- cbind(model_index[, 1:4], xgbTree = 0.0, C5.0 = 0.0, nb = 0.0, multinom = 0.0, rf = 0.0, nnet = 0.0, meta = 0.0, dnn = 0.0)
+model_accuracy <- cbind(model_index[, 3:6], xgbTree = 0.0, C5.0 = 0.0, nb = 0.0, multinom = 0.0, rf = 0.0, nnet = 0.0, meta = 0.0, dnn = 0.0)
 pb <- progress::progress_bar$new(total = nrow(model_index))
 for (i in 1:nrow(model_index)) {
   suppressPackageStartupMessages(suppressMessages(suppressWarnings({
