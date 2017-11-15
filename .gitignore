@@ -32,3 +32,5 @@ data/all.json
 models/model-cache*.rds
 
 models/model-index.csv
+
+*.rds

@@ -1,7 +1,7 @@
 if (!grepl("^stat1", Sys.info()["nodename"])) {
   message("Creating an auto-closing SSH tunnel in the background...")
   # See https://gist.github.com/scy/6781836 for more info.
-  system("ssh -f -o ExitOnForwardFailure=yes stat1006.eqiad.wmnet -L 3307:analytics-store.eqiad.wmnet:3306 sleep 10")
+  system("ssh -f -o ExitOnForwardFailure=yes stat1006.eqiad.wmnet -L 3307:db1108.eqiad.wmnet:3306 sleep 10")
   library(RMySQL)
   con <- dbConnect(MySQL(), host = "127.0.0.1", group = "client", dbname = "log", port = 3307)
 } else {
