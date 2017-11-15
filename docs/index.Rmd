@@ -19,8 +19,8 @@ output:
     toc_depth: 3
     code_folding: hide
     # Figures
-    fig_width: 16
-    fig_height: 8
+    fig_width: 12
+    fig_height: 6
     # Theme
     theme: readable
     # Files
@@ -82,9 +82,9 @@ $("p.abstract").text("Executive Summary");
 ```
 <p style="text-align: center;"><a title="By Github project phacility/phabricator & w:de:User:Perhelion [Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AFavicon-Phabricator-WM.png"><img width="16" alt="Favicon-Phabricator-WM" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Favicon-Phabricator-WM.png"/></a> <a href="https://phabricator.wikimedia.org/T175048" title="T175048">Phabricator ticket</a> | <a title="By The Open Source Initiative [CC BY 2.5 (http://creativecommons.org/licenses/by/2.5)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AOpen_Source_Initiative_keyhole.svg"><img width="16" alt="Open Source Initiative keyhole" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/16px-Open_Source_Initiative_keyhole.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys">Open source analysis</a> | <a title="Font Awesome by Dave Gandy - http://fortawesome.github.com/Font-Awesome [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3ADownload_font_awesome.svg"><img width="16" alt="Download font awesome" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Download_font_awesome.svg/16px-Download_font_awesome.svg.png"/></a> <a href="https://github.com/wikimedia-research/Discovery-Search-Adhoc-RelevanceSurveys/blob/master/data">Open data</a></p>
 
-## Background
+## Introduction
 
-## Discernatron
+### Discernatron
 
 ![Discernatron example](figures/example_discernatron.png)
 
@@ -103,20 +103,21 @@ $("p.abstract").text("Executive Summary");
 | k = 5  | better | [2, 3)      |
 | k = 5  | best   | 3           |
 
-Table:  How Discernatron scores were discretized into relevance labels.
+Table: How Discernatron scores were discretized into relevance labels.
 
-## Training Classifiers
+## Methods
 
 The classifiers trained are:
 
-- [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression) ([multinomial](https://en.wikipedia.org/wiki/Multinomial_logistic_regression) when using more than 2 labels), generically coded as "multinom" in the Results tables
-- [random forest](https://en.wikipedia.org/wiki/Random_forest), coded as "rf" in the Results tables
-- [neural network](https://en.wikipedia.org/wiki/Artificial_neural_network), coded as "nnet" in the Results tables
+- ([multinomial](https://en.wikipedia.org/wiki/Multinomial_logistic_regression)) [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression), generically coded as "multinom" in the Results tables
+- shallow [neural network](https://en.wikipedia.org/wiki/Artificial_neural_network) (with 1 hidden layer), coded as "nnet" in the Results tables
+- [deep neural network](https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks) with (with up to 3 hidden layers), coded as "dnn" in the Results tables
 - [naïve Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier), coded as "nb" in the Results tables
+- [random forest](https://en.wikipedia.org/wiki/Random_forest), coded as "rf" in the Results tables
 - [gradient-boosted trees](https://en.wikipedia.org/wiki/Gradient_boosting#Gradient_tree_boosting) (via [XGBoost](https://github.com/dmlc/xgboost)), coded as "xgbTree" in the Results tables
 - [C5.0](https://en.wikipedia.org/wiki/C4.5_algorithm) trees, coded as "C5.0" in the Results tables
 
-In addition to the 6 classifiers listed above (which we will refer to as *base learners*), we also trained a super learner in a technique called *[stacking](https://en.wikipedia.org/wiki/Ensemble_learning#Stacking)*. The base learners are trained in the first stage and are then asked to make predictions. Those predictions are then used as features (one feature for each base learner) to train the super learner in the second stage. Specifically, we chose [Bayesian network](https://en.wikipedia.org/wiki/Bayesian_network) (via the [bnclassify](https://github.com/bmihaljevic/bnclassify) package) as the super learner, coded as "meta" in the Results tables.
+In addition to the 7 classifiers listed above (which we will refer to as *base learners*), we also trained a super learner in a technique called *[stacking](https://en.wikipedia.org/wiki/Ensemble_learning#Stacking)*. The base learners are trained in the first stage and are then asked to make predictions. Those predictions are then used as features (one feature for each base learner) to train the super learner in the second stage. Specifically, we chose [Bayesian network](https://en.wikipedia.org/wiki/Bayesian_network) (via the [bnclassify](https://github.com/bmihaljevic/bnclassify) package) as the super learner, coded as "meta" in the Results tables.
 
 We utilized the [caret](https://github.com/topepo/caret) package to perform hyperparameter tuning (via 5-fold cross-validation) and training (using 80% of the available data) of each base learner for a combination of each of the following:
 
@@ -128,6 +129,7 @@ We utilized the [caret](https://github.com/topepo/caret) package to perform hype
 - 3 types of response: 2 vs 3 vs 5 labels
 - 2 types of Discernatron scores that would be discretized into labels: *reliable* vs *unreliable*
   - reliability based on [Krippendorff's alpha](https://en.wikipedia.org/wiki/Krippendorff%27s_alpha) exceeding a threshold of 0.45
+  - refer to [RelevanceScoring/Reliability.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/Reliability.php) and [RelevanceScoring/KrippendorffAlpha.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/KrippendorffAlpha.php) in Discernatron's source code for implementation details
 - 14 different feature sets:
   - **survey-only**
     - score summarizing users' responses
@@ -190,56 +192,122 @@ To correct for class imbalance, instances were [upsampled](https://en.wikipedia.
 
 ## Results
 
-```{r}
+```{r accuracy_data}
 model_accuracy <- readr::read_tsv(file.path("..", "models", "model-accuracy.tsv"))
 model_accuracy$features %<>% factor
 model_accuracy$classifier %<>% factor
+# model_accuracy$classifier %<>% factor(
+#   c("meta", "multinom", "nb", "nnet", "dnn", "rf", "xgbTree", "C5.0"),
+#   c("Meta (Bayesian Network)", "Logistic Regression", "Naive Bayes", "Shallow Neural Network", "Deep Neural Network", "Random Forest", "XGB trees", "C5.0 trees")
+# )
 model_accuracy$classes %<>% factor
 ```
 
-```{r, eval=FALSE}
+### Marginal accuracies
+
+```{r avg_question_accuracy, fig.width=12, fig.height=5}
+
 model_accuracy %>%
   dplyr::filter(classes == 2) %>%
-  dplyr::mutate(reliability = dplyr::if_else(discernatron_reliable, "Reliable", "Unreliable")) %>%
-  dplyr::group_by(question, features, reliability) %>%
-  dplyr::summarize(avg = mean(accuracy)) %>%
+  dplyr::mutate(Reliability = dplyr::if_else(discernatron_reliable, "Reliable", "Unreliable")) %>%
+  dplyr::group_by(Question = question, Reliability) %>%
+  dplyr::summarize(
+    median = median(accuracy),
+    minimum = min(accuracy),
+    maximum = max(accuracy)
+  ) %>%
   dplyr::ungroup() %>%
-  ggplot(aes(x = reliability, color = reliability)) +
-  geom_linerange(aes(ymin = 0, ymax = avg)) +
-  geom_label(aes(label = sprintf("%.2f%%", 100 * avg), y = avg)) +
-  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
-  scale_color_brewer(palette = "Set1") +
-  facet_grid(question ~ features) +
-  labs(
-    color = "Reliability of Discernatron Scores", y = "Average accuracy", x = NULL,
-    title = "Binary classifier performance across questions, feature sets, and Discernatron score reliability"
+  ggplot(aes(x = Question, color = Reliability)) +
+  geom_linerange(
+    aes(ymin = minimum, ymax = maximum),
+    position = position_dodge(width = 0.6)
   ) +
-  wmf::theme_facet(14, "Source Sans Pro", clean_xaxis = TRUE)
+  geom_label(
+    aes(y = median, label = sprintf("%.1f%%", 100 * median)),
+    position = position_dodge(width = 0.6)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 1), breaks = seq(0, 1, 0.1),
+    labels = scales::percent_format()
+  ) +
+  scale_color_brewer(palette = "Set1") +
+  coord_flip() +
+  labs(
+    x = NULL, y = "Accuracy", color = "Discernatron score reliability",
+    title = "Performance by question and Discernatron score reliability",
+    subtitle = paste(
+      "Binary classification accuracy averaged across",
+      prod(dim(table(model_accuracy$features, model_accuracy$classifier))),
+      "feature set-classifier combinations"
+    )
+  ) +
+  wmf::theme_min(14, "Source Sans Pro")
 ```
 
-```{r, eval=FALSE}
+```{r avg_feature_accuracy, fig.width=12, fig.height=7}
 model_accuracy %>%
   dplyr::filter(classes == 2) %>%
-  dplyr::mutate(is_meta = dplyr::if_else(classifier == "meta", "Super Learner", "Base Learners")) %>%
-  dplyr::group_by(question, features, is_meta) %>%
-  dplyr::summarize(avg = mean(accuracy)) %>%
+  dplyr::mutate(Reliability = dplyr::if_else(discernatron_reliable, "Reliable", "Unreliable")) %>%
+  dplyr::group_by(Features = features, Reliability) %>%
+  dplyr::summarize(
+    median = median(accuracy),
+    minimum = min(accuracy),
+    maximum = max(accuracy)
+  ) %>%
   dplyr::ungroup() %>%
-  ggplot(aes(x = is_meta, color = is_meta)) +
-  geom_linerange(aes(ymin = 0, ymax = avg)) +
-  geom_label(aes(label = sprintf("%.2f%%", 100 * avg), y = avg)) +
-  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
-  scale_color_brewer(palette = "Set1") +
-  facet_grid(question ~ features) +
-  labs(
-    color = "Classifier(s)", y = "Average accuracy", x = NULL,
-    title = "Binary classifier performance across questions and feature sets"
+  ggplot(aes(x = Features, color = Reliability)) +
+  geom_linerange(
+    aes(ymin = minimum, ymax = maximum),
+    position = position_dodge(width = 0.8)
   ) +
-  wmf::theme_facet(14, "Source Sans Pro", clean_xaxis = TRUE)
+  geom_label(
+    aes(y = median, label = sprintf("%.1f%%", 100 * median)),
+    position = position_dodge(width = 0.8),
+    size = 4, label.padding = unit(0.15, "lines")
+  ) +
+  scale_y_continuous(
+    limits = c(0, 1), breaks = seq(0, 1, 0.1),
+    labels = scales::percent_format()
+  ) +
+  scale_color_brewer(palette = "Set1") +
+  coord_flip() +
+  labs(
+    x = NULL, y = "Accuracy", color = "Discernatron score reliability",
+    title = "Performance by feature set and Discernatron score reliability",
+    subtitle = paste(
+      "Binary classification accuracy averaged across",
+      prod(dim(table(model_accuracy$question, model_accuracy$classifier))),
+      "question-classifier combinations"
+    )
+  ) +
+  wmf::theme_min(14, "Source Sans Pro")
 ```
 
-### Question 1
+```{r avg_stage_accuracy, results='asis'}
+model_accuracy %>%
+  dplyr::filter(classes == 2) %>%
+  dplyr::mutate(
+    Reliability = dplyr::if_else(discernatron_reliable, "Reliable Discernatron score", "Unreliable Discernatron score"),
+    Classifier = factor(
+      classifier,
+      levels = c("multinom", "nnet", "dnn", "nb", "rf", "xgbTree", "C5.0", "meta"),
+      labels = c("Logistic Regression (multinom)", "Shallow Neural Network (nnet)", "Deep Neural Network (dnn)", "Naive Bayes (nb)", "Random Forest (rf)", "Gradient-boosted Trees (xgbTree)", "C5.0 trees", "Bayesian Network super learner (meta)")
+    )
+  ) %>%
+  dplyr::group_by(Classifier, Reliability) %>%
+  dplyr::summarize(avg = sprintf("%.1f%%", mean(100 * accuracy))) %>%
+  dplyr::ungroup() %>%
+  tidyr::spread(Reliability, avg) %>%
+  knitr::kable(format = "markdown")
+```
 
-#### Reliable Scores
+Table: Binary classification performance by classifier and Discernatron score reliability, with accuracy averaged across `r prod(dim(table(model_accuracy$question, model_accuracy$features)))` question-feature set combinations.
+
+### Accuracies by question
+
+#### Question 1
+
+##### Reliable Scores
 
 ```{r}
 DT::datatable(
@@ -258,7 +326,7 @@ DT::datatable(
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
 
-#### Unreliable Scores
+##### Unreliable Scores
 
 ```{r}
 DT::datatable(
@@ -277,9 +345,9 @@ DT::datatable(
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
 
-### Question 2
+#### Question 2
 
-#### Reliable Scores
+##### Reliable Scores
 
 ```{r}
 DT::datatable(
@@ -298,7 +366,7 @@ DT::datatable(
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
 
-#### Unreliable Scores
+##### Unreliable Scores
 
 ```{r}
 DT::datatable(
@@ -317,9 +385,9 @@ DT::datatable(
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
 
-### Question 3
+#### Question 3
 
-#### Reliable Scores
+##### Reliable Scores
 
 ```{r}
 DT::datatable(
@@ -338,7 +406,7 @@ DT::datatable(
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
 
-#### Unreliable Scores
+##### Unreliable Scores
 
 ```{r}
 DT::datatable(
@@ -357,9 +425,9 @@ DT::datatable(
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
 
-### Question 4
+#### Question 4
 
-#### Reliable Scores
+##### Reliable Scores
 
 ```{r}
 DT::datatable(
@@ -378,7 +446,7 @@ DT::datatable(
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
 
-#### Unreliable Scores
+##### Unreliable Scores
 
 ```{r}
 DT::datatable(
@@ -396,3 +464,7 @@ DT::datatable(
   caption = "Accuracy of models trained on responses to the question \"Would you click on this page when searching for '...'?\" and relevance labels based on unreliable Discernatron scores."
 ) %>% DT::formatPercentage("accuracy", 3)
 ```
+
+## Discussion
+
+## References
