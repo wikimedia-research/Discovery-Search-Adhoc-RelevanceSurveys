@@ -20,7 +20,9 @@ for (reliability in c(TRUE, FALSE)) {
         dplyr::rename(Class = relevance2) %>%
         dplyr::mutate(Class = as.numeric(factor(Class, c("bad", "good"))) - 1) %>%
         { .[, c("Class", "set", features[[f]])] }
-      safe_feature_names <- gsub("-", "_", features[[f]], fixed = TRUE)
+      safe_feature_names <- features[[f]] %>%
+        gsub("-", "_", ., fixed = TRUE) %>%
+        gsub(":", ".", ., fixed = TRUE)
       names(temp_data) <- c("Class", "set", safe_feature_names)
       x_train <- dplyr::select(dplyr::filter(temp_data, set == "train"), -c(Class, set))
       y_train <- matrix(temp_data$Class[temp_data$set == "train"], ncol = 1)
@@ -53,7 +55,7 @@ for (reliability in c(TRUE, FALSE)) {
       model %>%
         layer_dense(units = 256, input_shape = ncol(x_train)) %>%
         layer_activation('relu') %>%
-        layer_dropout(0.2) %>%
+        layer_dropout(0.5) %>%
         layer_dense(units = 128) %>%
         layer_activation('relu') %>%
         layer_dropout(0.2) %>%
@@ -69,11 +71,12 @@ for (reliability in c(TRUE, FALSE)) {
       )
       history <- model %>% fit(
         x_train, y_train,
-        epochs = 300, batch_size = 128,
+        epochs = 30, batch_size = 128,
         validation_split = 0.2,
         class_weight = list("0" = 0.4, "1" = 0.6),
         verbose = 2
       )
+      plot(history)
 
       # Save model accuracy:
       idx <- which(
@@ -88,3 +91,4 @@ for (reliability in c(TRUE, FALSE)) {
   }
 }; rm(model, safe_feature_names, shuffled_idx, x_train, y_train, x_test, y_test, history, idx)
 
+readr::write_csv(accuracies, file.path("models", "keras-accuracies.csv"))
