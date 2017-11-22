@@ -8,7 +8,7 @@ author:
   - "<a href='https://meta.wikimedia.org/wiki/User:DTankersley_(WMF)'>Deb Tankersley</a>"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 abstract: >
-  To improve the relevance of search results on Wikipedia and other Wikimedia Foundation projects, the Search Platform team has focused endeavor on ranking results with machine learning. The first iteration used a click-based model to create relevance labels. Here we present a way to augment that training data with a deep neural network (although other models are also considered) that can predict relevance of a wiki page to a specific search query based on users' responses to the question "If someone searched for ‘…’, would they want to read this article?". The model has over 90% accuracy when there are at least 40 responses and 100% accuracy when there are 70 or more responses. Once deployed, we can utilize users' responses to search relevance surveys and this model to create relevance labels for training the ranker.
+  To improve the relevance of search results on Wikipedia and other Wikimedia Foundation projects, the Search Platform team has focused endeavor on ranking results with machine learning. The first iteration used a click-based model to create relevance labels. Here we present a way to augment that training data with a deep neural network (although other models are also considered) that can predict relevance of a wiki page to a specific search query based on users' responses to the question "If someone searched for ‘…’, would they want to read this article?". The model has 80% overall accuracy but over 90% accuracy when there are at least 40 responses and 100% accuracy when there are 70 or more responses. Once deployed, we can utilize users' responses to search relevance surveys and this model to create relevance labels for training the ranker.
 output:
   html_document:
     # Table of Contents
@@ -96,9 +96,9 @@ However, since graders have different opinions and some scores are calculated fr
 
 ## Methods
 
-The classifiers trained are:
+The (binary) classifiers trained are:
 
-- ([multinomial](https://en.wikipedia.org/wiki/Multinomial_logistic_regression)) [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression), generically coded as "multinom" in the Results tables
+- [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression), generically coded as "multinom" in the Results tables
 - shallow [neural network](https://en.wikipedia.org/wiki/Artificial_neural_network) (with 1 hidden layer), coded as "nnet" in the Results tables
 - [deep neural network](https://en.wikipedia.org/wiki/Deep_learning#Deep_neural_networks) with (with up to 3 hidden layers), coded as "dnn" in the Results tables
 - [naïve Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier), coded as "nb" in the Results tables
