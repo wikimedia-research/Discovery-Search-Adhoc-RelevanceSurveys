@@ -1,0 +1,897 @@
+question,features,discernatron_reliable,classifier,accuracy
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,xgbTree,0.6532
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,xgbTree,0.6532
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,xgbTree,0.6487
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,xgbTree,0.6562
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,xgbTree,0.6786
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,xgbTree,0.6487
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,xgbTree,0.6801
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,xgbTree,0.6697
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,xgbTree,0.6786
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,xgbTree,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,xgbTree,0.6906
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,xgbTree,0.6756
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,xgbTree,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,xgbTree,0.6861
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,xgbTree,0.6517
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,xgbTree,0.6862
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,xgbTree,0.6517
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,xgbTree,0.6907
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,xgbTree,0.6847
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,xgbTree,0.6757
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,xgbTree,0.6877
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,xgbTree,0.6712
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,xgbTree,0.7027
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,xgbTree,0.6997
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,xgbTree,0.7042
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,xgbTree,0.6922
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,xgbTree,0.6937
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,xgbTree,0.6877
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,xgbTree,0.6282
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,xgbTree,0.6522
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,xgbTree,0.6462
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,xgbTree,0.6462
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,xgbTree,0.6627
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,xgbTree,0.6777
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,xgbTree,0.6822
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,xgbTree,0.6957
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,xgbTree,0.6612
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,xgbTree,0.6762
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,xgbTree,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,xgbTree,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,xgbTree,0.6627
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,xgbTree,0.6807
+Would you click on this page when searching for '...'?,survey-only,TRUE,xgbTree,0.6276
+Would you click on this page when searching for '...'?,survey & page info,TRUE,xgbTree,0.6216
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,xgbTree,0.6171
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,xgbTree,0.6141
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,xgbTree,0.6171
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,xgbTree,0.6111
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,xgbTree,0.6411
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,xgbTree,0.6396
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,xgbTree,0.6637
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,xgbTree,0.6306
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,xgbTree,0.6321
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,xgbTree,0.6411
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,xgbTree,0.6502
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,xgbTree,0.6486
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,xgbTree,0.6667
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,xgbTree,0.6712
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,xgbTree,0.6577
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,xgbTree,0.6726
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,xgbTree,0.6816
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,xgbTree,0.6547
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,xgbTree,0.6637
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,xgbTree,0.6667
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,xgbTree,0.6547
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,xgbTree,0.6532
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,xgbTree,0.6532
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,xgbTree,0.6577
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,xgbTree,0.6532
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,xgbTree,0.6547
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,xgbTree,0.6261
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,xgbTree,0.6351
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,xgbTree,0.6351
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,xgbTree,0.6456
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,xgbTree,0.6246
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,xgbTree,0.6381
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,xgbTree,0.6351
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,xgbTree,0.6426
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,xgbTree,0.6396
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,xgbTree,0.6261
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,xgbTree,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,xgbTree,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,xgbTree,0.6261
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,xgbTree,0.6441
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,xgbTree,0.6387
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,xgbTree,0.6387
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,xgbTree,0.6267
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,xgbTree,0.6417
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,xgbTree,0.6477
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,xgbTree,0.6597
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,xgbTree,0.6567
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,xgbTree,0.6402
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,xgbTree,0.6672
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,xgbTree,0.6687
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,xgbTree,0.6552
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,xgbTree,0.6612
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,xgbTree,0.6552
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,xgbTree,0.6657
+Would you click on this page when searching for '...'?,survey-only,FALSE,xgbTree,0.6246
+Would you click on this page when searching for '...'?,survey & page info,FALSE,xgbTree,0.6441
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,xgbTree,0.6246
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,xgbTree,0.6426
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,xgbTree,0.5931
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,xgbTree,0.6426
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,xgbTree,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,xgbTree,0.6141
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,xgbTree,0.5991
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,xgbTree,0.5976
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,xgbTree,0.5856
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,xgbTree,0.6096
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,xgbTree,0.5886
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,xgbTree,0.6021
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,C5.0,0.6158
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,C5.0,0.6741
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,C5.0,0.6158
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,C5.0,0.6697
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,C5.0,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,C5.0,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,C5.0,0.7025
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,C5.0,0.6861
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,C5.0,0.6966
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,C5.0,0.7145
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,C5.0,0.6996
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,C5.0,0.6756
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,C5.0,0.7145
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,C5.0,0.7145
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,C5.0,0.6186
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,C5.0,0.6637
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,C5.0,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,C5.0,0.6276
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,C5.0,0.6607
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,C5.0,0.6532
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,C5.0,0.6336
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,C5.0,0.6652
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,C5.0,0.7162
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,C5.0,0.6817
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,C5.0,0.7162
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,C5.0,0.7027
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,C5.0,0.6817
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,C5.0,0.6817
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,C5.0,0.6987
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,C5.0,0.6807
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,C5.0,0.6777
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,C5.0,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,C5.0,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,C5.0,0.6822
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,C5.0,0.6687
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,C5.0,0.6762
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,C5.0,0.6612
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,C5.0,0.6642
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,C5.0,0.6612
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,C5.0,0.6837
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,C5.0,0.6642
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,C5.0,0.6672
+Would you click on this page when searching for '...'?,survey-only,TRUE,C5.0,0.6066
+Would you click on this page when searching for '...'?,survey & page info,TRUE,C5.0,0.5916
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,C5.0,0.6006
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,C5.0,0.6186
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,C5.0,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,C5.0,0.6366
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,C5.0,0.6051
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,C5.0,0.6096
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,C5.0,0.6577
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,C5.0,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,C5.0,0.6577
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,C5.0,0.6171
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,C5.0,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,C5.0,0.6306
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,C5.0,0.7324
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,C5.0,0.6891
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,C5.0,0.7055
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,C5.0,0.6771
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,C5.0,0.6487
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,C5.0,0.6771
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,C5.0,0.6607
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,C5.0,0.6173
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,C5.0,0.707
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,C5.0,0.6487
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,C5.0,0.707
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,C5.0,0.6442
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,C5.0,0.6487
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,C5.0,0.6487
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,C5.0,0.6261
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,C5.0,0.6111
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,C5.0,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,C5.0,0.6246
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,C5.0,0.6306
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,C5.0,0.6366
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,C5.0,0.6456
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,C5.0,0.6096
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,C5.0,0.6291
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,C5.0,0.6156
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,C5.0,0.6291
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,C5.0,0.6592
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,C5.0,0.6156
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,C5.0,0.6156
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,C5.0,0.6597
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,C5.0,0.6597
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,C5.0,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,C5.0,0.6522
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,C5.0,0.6567
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,C5.0,0.6867
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,C5.0,0.7046
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,C5.0,0.7136
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,C5.0,0.6567
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,C5.0,0.6927
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,C5.0,0.6567
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,C5.0,0.6342
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,C5.0,0.6927
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,C5.0,0.6927
+Would you click on this page when searching for '...'?,survey-only,FALSE,C5.0,0.6276
+Would you click on this page when searching for '...'?,survey & page info,FALSE,C5.0,0.5976
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,C5.0,0.6156
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,C5.0,0.5856
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,C5.0,0.5991
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,C5.0,0.6532
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,C5.0,0.6246
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,C5.0,0.6697
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,C5.0,0.5616
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,C5.0,0.6261
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,C5.0,0.5616
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,C5.0,0.5856
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,C5.0,0.6261
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,C5.0,0.6261
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,nb,0.6846
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,nb,0.6547
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,nb,0.6741
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,nb,0.6338
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,nb,0.5142
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,nb,0.6682
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nb,0.7025
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,nb,0.3632
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,nb,0.6293
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,nb,0.6547
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,nb,0.6293
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,nb,0.6263
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nb,0.6547
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nb,0.6547
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,nb,0.6532
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,nb,0.3273
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,nb,0.6366
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,nb,0.3303
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,nb,0.3664
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,nb,0.3453
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nb,0.3694
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,nb,0.3393
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,nb,0.3634
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,nb,0.3378
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,nb,0.3604
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,nb,0.3589
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nb,0.3378
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nb,0.3378
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,nb,0.6702
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,nb,0.6462
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,nb,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,nb,0.6507
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,nb,0.5187
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,nb,0.6027
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nb,0.4633
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,nb,0.3688
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,nb,0.6342
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,nb,0.6522
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,nb,0.6357
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,nb,0.6357
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nb,0.6522
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nb,0.6522
+Would you click on this page when searching for '...'?,survey-only,TRUE,nb,0.5901
+Would you click on this page when searching for '...'?,survey & page info,TRUE,nb,0.5721
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,nb,0.5766
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,nb,0.5541
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,nb,0.4129
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,nb,0.5315
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nb,0.4129
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,nb,0.3874
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,nb,0.5586
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,nb,0.5751
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,nb,0.5601
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,nb,0.5616
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nb,0.5751
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nb,0.5751
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,nb,0.6697
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,nb,0.6517
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,nb,0.4155
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,nb,0.3408
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nb,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nb,0.3423
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,nb,0.6216
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,nb,0.3183
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,nb,0.6456
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,nb,0.3183
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,nb,0.3243
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,nb,0.3183
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nb,0.3228
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,nb,0.5571
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,nb,0.3198
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,nb,0.3168
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,nb,0.3243
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,nb,0.3243
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nb,0.3168
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nb,0.3168
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,nb,0.6837
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,nb,0.3493
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,nb,0.6852
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,nb,0.3493
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,nb,0.3493
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,nb,0.3493
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nb,0.3493
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,nb,0.4903
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,nb,0.3538
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,nb,0.3493
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,nb,0.3523
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,nb,0.3523
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nb,0.3493
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nb,0.3493
+Would you click on this page when searching for '...'?,survey-only,FALSE,nb,0.6592
+Would you click on this page when searching for '...'?,survey & page info,FALSE,nb,0.3649
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,nb,0.6847
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,nb,0.3649
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,nb,0.3649
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,nb,0.3649
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nb,0.3649
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,nb,0.4655
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,nb,0.3679
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,nb,0.3649
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,nb,0.3679
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,nb,0.3724
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nb,0.3649
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nb,0.3649
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,multinom,0.6667
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,multinom,0.6652
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,multinom,0.6861
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,multinom,0.6816
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,multinom,0.6831
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,multinom,0.6921
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,multinom,0.6801
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,multinom,0.6801
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,multinom,0.6637
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,multinom,0.7025
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,multinom,0.6637
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,multinom,0.6622
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,multinom,0.7025
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,multinom,0.701
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,multinom,0.6381
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,multinom,0.6502
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,multinom,0.6532
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,multinom,0.6547
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,multinom,0.6486
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,multinom,0.6712
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,multinom,0.6622
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,multinom,0.6757
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,multinom,0.6351
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,multinom,0.6727
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,multinom,0.6351
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,multinom,0.6366
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,multinom,0.6727
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,multinom,0.6727
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,multinom,0.6477
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,multinom,0.6447
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,multinom,0.6552
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,multinom,0.6582
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,multinom,0.6582
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,multinom,0.6672
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,multinom,0.6672
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,multinom,0.6762
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,multinom,0.6417
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,multinom,0.6507
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,multinom,0.6417
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,multinom,0.6432
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,multinom,0.6507
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,multinom,0.6507
+Would you click on this page when searching for '...'?,survey-only,TRUE,multinom,0.5991
+Would you click on this page when searching for '...'?,survey & page info,TRUE,multinom,0.6051
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,multinom,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,multinom,0.6156
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,multinom,0.6111
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,multinom,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,multinom,0.6126
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,multinom,0.6306
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,multinom,0.5976
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,multinom,0.6156
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,multinom,0.5976
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,multinom,0.5976
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,multinom,0.6156
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,multinom,0.6156
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,multinom,0.6637
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,multinom,0.6637
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,multinom,0.701
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,multinom,0.6801
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,multinom,0.6697
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,multinom,0.6741
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,multinom,0.6622
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,multinom,0.6756
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,multinom,0.6667
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,multinom,0.6906
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,multinom,0.6667
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,multinom,0.6667
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,multinom,0.6906
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,multinom,0.6906
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,multinom,0.6231
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,multinom,0.6351
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,multinom,0.6652
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,multinom,0.6697
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,multinom,0.6441
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,multinom,0.6532
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,multinom,0.6441
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,multinom,0.6441
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,multinom,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,multinom,0.6742
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,multinom,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,multinom,0.6486
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,multinom,0.6742
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,multinom,0.6742
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,multinom,0.6522
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,multinom,0.6567
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,multinom,0.6897
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,multinom,0.7151
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,multinom,0.7151
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,multinom,0.6792
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,multinom,0.6792
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,multinom,0.6777
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,multinom,0.6492
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,multinom,0.7016
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,multinom,0.6492
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,multinom,0.6522
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,multinom,0.7016
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,multinom,0.7016
+Would you click on this page when searching for '...'?,survey-only,FALSE,multinom,0.6246
+Would you click on this page when searching for '...'?,survey & page info,FALSE,multinom,0.6291
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,multinom,0.6306
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,multinom,0.6246
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,multinom,0.6171
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,multinom,0.6502
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,multinom,0.6156
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,multinom,0.6231
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,multinom,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,multinom,0.6351
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,multinom,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,multinom,0.6291
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,multinom,0.6336
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,multinom,0.6381
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,rf,0.6637
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,rf,0.6906
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,rf,0.6592
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,rf,0.6861
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,rf,0.6801
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,rf,0.6891
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,rf,0.6771
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,rf,0.6741
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,rf,0.71
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,rf,0.719
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,rf,0.704
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,rf,0.704
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,rf,0.6981
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,rf,0.71
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,rf,0.6411
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,rf,0.6847
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,rf,0.6456
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,rf,0.6802
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,rf,0.6592
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,rf,0.6757
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,rf,0.6667
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,rf,0.6592
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,rf,0.6877
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,rf,0.6922
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,rf,0.6937
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,rf,0.6892
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,rf,0.6967
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,rf,0.6967
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,rf,0.6162
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,rf,0.6747
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,rf,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,rf,0.6567
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,rf,0.6642
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,rf,0.6642
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,rf,0.6717
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,rf,0.6837
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,rf,0.6732
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,rf,0.6717
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,rf,0.6597
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,rf,0.6717
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,rf,0.6642
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,rf,0.6657
+Would you click on this page when searching for '...'?,survey-only,TRUE,rf,0.5931
+Would you click on this page when searching for '...'?,survey & page info,TRUE,rf,0.6201
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,rf,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,rf,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,rf,0.5961
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,rf,0.6126
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,rf,0.5916
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,rf,0.6066
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,rf,0.6502
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,rf,0.6471
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,rf,0.6592
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,rf,0.6577
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,rf,0.6471
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,rf,0.6502
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,rf,0.6442
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,rf,0.6741
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,rf,0.6786
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,rf,0.6816
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,rf,0.6786
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,rf,0.6697
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,rf,0.6712
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,rf,0.6592
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,rf,0.6906
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,rf,0.6981
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,rf,0.6921
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,rf,0.6906
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,rf,0.6801
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,rf,0.6846
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,rf,0.6111
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,rf,0.6306
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,rf,0.6351
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,rf,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,rf,0.6396
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,rf,0.6562
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,rf,0.6231
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,rf,0.6532
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,rf,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,rf,0.6456
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,rf,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,rf,0.6441
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,rf,0.6456
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,rf,0.6607
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,rf,0.6012
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,rf,0.6507
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,rf,0.6297
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,rf,0.6582
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,rf,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,rf,0.6672
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,rf,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,rf,0.6537
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,rf,0.6732
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,rf,0.6552
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,rf,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,rf,0.6687
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,rf,0.6687
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,rf,0.6747
+Would you click on this page when searching for '...'?,survey-only,FALSE,rf,0.6036
+Would you click on this page when searching for '...'?,survey & page info,FALSE,rf,0.6471
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,rf,0.6517
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,rf,0.6441
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,rf,0.6156
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,rf,0.6291
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,rf,0.5901
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,rf,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,rf,0.6321
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,rf,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,rf,0.6532
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,rf,0.6141
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,rf,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,rf,0.6276
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,nnet,0.6532
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,nnet,0.6861
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,nnet,0.6861
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,nnet,0.6726
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,nnet,0.6771
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,nnet,0.6502
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nnet,0.6712
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,nnet,0.6517
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,nnet,0.3438
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,nnet,0.6607
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,nnet,0.6562
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,nnet,0.6697
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nnet,0.6682
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nnet,0.6891
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,nnet,0.6321
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,nnet,0.6577
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,nnet,0.6787
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,nnet,0.6757
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,nnet,0.6592
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,nnet,0.6336
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nnet,0.6637
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,nnet,0.6231
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,nnet,0.6486
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,nnet,0.6697
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,nnet,0.6622
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,nnet,0.6547
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nnet,0.6817
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nnet,0.6832
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,nnet,0.6477
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,nnet,0.6702
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,nnet,0.6912
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,nnet,0.6837
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,nnet,0.6942
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,nnet,0.6927
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nnet,0.6807
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,nnet,0.6687
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,nnet,0.6507
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,nnet,0.6762
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,nnet,0.6987
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,nnet,0.6897
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nnet,0.6972
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nnet,0.7016
+Would you click on this page when searching for '...'?,survey-only,TRUE,nnet,0.6171
+Would you click on this page when searching for '...'?,survey & page info,TRUE,nnet,0.5946
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,nnet,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,nnet,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,nnet,0.6036
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,nnet,0.6081
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,nnet,0.5946
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,nnet,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,nnet,0.3649
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,nnet,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,nnet,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,nnet,0.6156
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,nnet,0.6141
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,nnet,0.6276
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,nnet,0.6398
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,nnet,0.6293
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,nnet,0.6532
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,nnet,0.6487
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,nnet,0.6726
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,nnet,0.6697
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nnet,0.6502
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,nnet,0.5785
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,nnet,0.6502
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,nnet,0.6562
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,nnet,0.6622
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,nnet,0.6413
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nnet,0.6398
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nnet,0.6667
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,nnet,0.6156
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,nnet,0.6246
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,nnet,0.6306
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,nnet,0.6276
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,nnet,0.6006
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,nnet,0.6051
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nnet,0.6036
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,nnet,0.6246
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,nnet,0.6697
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,nnet,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,nnet,0.6321
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,nnet,0.6351
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nnet,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nnet,0.6096
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,nnet,0.6567
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,nnet,0.6492
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,nnet,0.7166
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,nnet,0.6882
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,nnet,0.5862
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,nnet,0.6837
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nnet,0.6327
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,nnet,0.6102
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,nnet,0.6492
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,nnet,0.6882
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,nnet,0.6792
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,nnet,0.6612
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nnet,0.6942
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nnet,0.6762
+Would you click on this page when searching for '...'?,survey-only,FALSE,nnet,0.6757
+Would you click on this page when searching for '...'?,survey & page info,FALSE,nnet,0.6081
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,nnet,0.6411
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,nnet,0.6006
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,nnet,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,nnet,0.6351
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,nnet,0.5811
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,nnet,0.6036
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,nnet,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,nnet,0.6517
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,nnet,0.6306
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,nnet,0.6081
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,nnet,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,nnet,0.6306
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,meta,0.6667
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,meta,0.6622
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,meta,0.6712
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,meta,0.6682
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,meta,0.6726
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,meta,0.6726
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,meta,0.6741
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,meta,0.6293
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,meta,0.6577
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,meta,0.6682
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,meta,0.6532
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,meta,0.6682
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,meta,0.6667
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,meta,0.6667
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,meta,0.6351
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,meta,0.6411
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,meta,0.6351
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,meta,0.6396
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,meta,0.6547
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,meta,0.6366
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,meta,0.6291
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,meta,0.6156
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,meta,0.3168
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,meta,0.6366
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,meta,0.6426
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,meta,0.6381
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,meta,0.6577
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,meta,0.6366
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,meta,0.6477
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,meta,0.6447
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,meta,0.6537
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,meta,0.6522
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,meta,0.6327
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,meta,0.6612
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,meta,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,meta,0.6507
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,meta,0.3478
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,meta,0.6702
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,meta,0.6522
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,meta,0.6462
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,meta,0.6537
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,meta,0.6447
+Would you click on this page when searching for '...'?,survey-only,TRUE,meta,0.6231
+Would you click on this page when searching for '...'?,survey & page info,TRUE,meta,0.6126
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,meta,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,meta,0.6111
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,meta,0.545
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,meta,0.6051
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,meta,0.476
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,meta,0.5871
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,meta,0.3619
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,meta,0.5721
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,meta,0.5511
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,meta,0.6246
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,meta,0.5841
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,meta,0.6261
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,meta,0.6547
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,meta,0.6667
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,meta,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,meta,0.6846
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,meta,0.6741
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,meta,0.6143
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,meta,0.4933
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,meta,0.6532
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,meta,0.3423
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,meta,0.6771
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,meta,0.6786
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,meta,0.6143
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,meta,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,meta,0.6652
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,meta,0.6336
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,meta,0.6306
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,meta,0.6366
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,meta,0.6547
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,meta,0.6592
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,meta,0.6532
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,meta,0.5691
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,meta,0.6562
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,meta,0.3168
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,meta,0.6381
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,meta,0.6261
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,meta,0.6321
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,meta,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,meta,0.6306
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,meta,0.6462
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,meta,0.6432
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,meta,0.6432
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,meta,0.7391
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,meta,0.7061
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,meta,0.6837
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,meta,0.5397
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,meta,0.6057
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,meta,0.3478
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,meta,0.6867
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,meta,0.6687
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,meta,0.6567
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,meta,0.6792
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,meta,0.6507
+Would you click on this page when searching for '...'?,survey-only,FALSE,meta,0.6186
+Would you click on this page when searching for '...'?,survey & page info,FALSE,meta,0.6126
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,meta,0.6366
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,meta,0.6141
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,meta,0.533
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,meta,0.506
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,meta,0.5255
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,meta,0.521
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,meta,0.476
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,meta,0.5736
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,meta,0.6186
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,meta,0.6261
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,meta,0.6336
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,meta,0.6246
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,dnn,0.6801
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,dnn,0.6921
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,dnn,0.6921
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,dnn,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,dnn,0.6966
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,dnn,0.6876
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,dnn,0.71
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,dnn,0.6981
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,dnn,0.7025
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,dnn,0.7115
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,dnn,0.7025
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,dnn,0.707
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,dnn,0.704
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,dnn,0.7115
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,dnn,0.6697
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,dnn,0.6892
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,dnn,0.6547
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,dnn,0.6847
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,dnn,0.6757
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,dnn,0.6817
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,dnn,0.6787
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,dnn,0.6802
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,dnn,0.7072
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,dnn,0.6937
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,dnn,0.7042
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,dnn,0.6982
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,dnn,0.6982
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,dnn,0.7012
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,dnn,0.6462
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,dnn,0.6807
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,dnn,0.6732
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,dnn,0.6612
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,dnn,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,dnn,0.6897
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,dnn,0.7001
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,dnn,0.7046
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,dnn,0.6777
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,dnn,0.6807
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,dnn,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,dnn,0.6852
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,dnn,0.6837
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,dnn,0.6867
+Would you click on this page when searching for '...'?,survey-only,TRUE,dnn,0.6156
+Would you click on this page when searching for '...'?,survey & page info,TRUE,dnn,0.6276
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,dnn,0.6261
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,dnn,0.6291
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,dnn,0.6276
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,dnn,0.6201
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,dnn,0.6216
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,dnn,0.6336
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,dnn,0.6607
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,dnn,0.6381
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,dnn,0.6517
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,dnn,0.6456
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,dnn,0.6517
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,dnn,0.6532
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,dnn,0.6756
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,dnn,0.6726
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,dnn,0.6936
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,dnn,0.6906
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,dnn,0.6771
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,dnn,0.6562
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,dnn,0.6801
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,dnn,0.6741
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,dnn,0.6846
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,dnn,0.6816
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,dnn,0.6756
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,dnn,0.6756
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,dnn,0.6816
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,dnn,0.6786
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,dnn,0.6502
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,dnn,0.6532
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,dnn,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,dnn,0.6577
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,dnn,0.6486
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,dnn,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,dnn,0.6411
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,dnn,0.6471
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,dnn,0.6592
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,dnn,0.6517
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,dnn,0.6592
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,dnn,0.6517
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,dnn,0.6622
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,dnn,0.6652
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,dnn,0.6537
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,dnn,0.6582
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,dnn,0.6597
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,dnn,0.6837
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,dnn,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,dnn,0.6747
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,dnn,0.6852
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,dnn,0.6792
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,dnn,0.6777
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,dnn,0.6792
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,dnn,0.6717
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,dnn,0.6657
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,dnn,0.6732
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,dnn,0.6672
+Would you click on this page when searching for '...'?,survey-only,FALSE,dnn,0.6532
+Would you click on this page when searching for '...'?,survey & page info,FALSE,dnn,0.6502
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,dnn,0.6396
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,dnn,0.6547
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,dnn,0.6231
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,dnn,0.6562
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,dnn,0.6291
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,dnn,0.6471
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,dnn,0.6126
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,dnn,0.6336
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,dnn,0.6321
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,dnn,0.6186
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,dnn,0.6261
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,dnn,0.6261

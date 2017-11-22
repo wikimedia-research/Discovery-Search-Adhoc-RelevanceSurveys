@@ -5,7 +5,7 @@ library(keras)
 per_question <- readr::read_rds(file.path("data", "per_question.rds"))
 source("features.R")
 
-index <- file.path("models", "keras-index.csv")
+index <- file.path("models", "keras-index-legacy.csv")
 if (file.exists(index)) {
   learnt <- readr::read_csv(index)
 } else {
@@ -61,26 +61,24 @@ for (reliability in c(TRUE, FALSE)) {
       # Construct and train a Sequential model:
       model <- keras_model_sequential()
       model %>%
-        layer_dense(units = 128, activation = 'relu', kernel_initializer = "he_normal", kernel_regularizer = regularizer_l2(l = 0.02), input_shape = ncol(x_train)) %>%
+        layer_dense(units = 256, activation = 'relu', input_shape = ncol(x_train)) %>%
         layer_dropout(0.5) %>%
-        layer_dense(units = 256, activation = 'relu', kernel_initializer = "he_normal", kernel_regularizer = regularizer_l2(l = 0.02)) %>%
-        layer_dropout(0.5) %>%
-        layer_dense(units = 128, activation = 'relu', kernel_initializer = "he_normal", kernel_regularizer = regularizer_l2(l = 0.02)) %>%
-        layer_dropout(0.5) %>%
-        layer_dense(units = 64, activation = 'relu', kernel_initializer = "he_normal", kernel_regularizer = regularizer_l2(l = 0.01)) %>%
-        layer_dropout(0.25) %>%
-        layer_dense(units = 16, activation = 'relu', kernel_initializer = "he_normal") %>%
+        layer_dense(units = 128, activation = 'relu') %>%
+        layer_dropout(0.2) %>%
+        layer_dense(units = 64, activation = 'relu') %>%
+        layer_dropout(0.1) %>%
         layer_dense(units = 1, activation = 'sigmoid')
       model %>% compile(
         loss = 'binary_crossentropy',
-        optimizer = optimizer_adam(lr = 0.001),
+        optimizer = optimizer_rmsprop(lr = 0.01),
         metrics = 'accuracy'
       )
       history <- model %>% fit(
-        x_train, y_train, epochs = 30, batch_size = 256,
-        validation_split = 0, validation_data = list(x_test, y_test),
-        class_weight = as.list(length(y_train) / (2 * table(y_train))),
-        shuffle = TRUE, verbose = 2
+        x_train, y_train,
+        epochs = 30, batch_size = 128,
+        validation_split = 0.2,
+        class_weight = list("0" = 0.4, "1" = 0.6),
+        verbose = 2
       )
       # plot(history)
 

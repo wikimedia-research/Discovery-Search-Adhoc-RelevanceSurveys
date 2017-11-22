@@ -26,29 +26,11 @@ pages <- readr::read_tsv(file.path(base_dir, "page_info.tsv"), col_types = "icci
       page_length < 5e4 ~ "medium",
       page_length < 1e5 ~ "large",
       TRUE ~ "huge"
-    ))
+    ), c("tiny", "small", "medium", "large", "huge"))
   )
 
-scores <- readr::read_tsv(file.path(base_dir, "discernatron_scores.tsv"), col_types = "iidli")
-scores %<>%
-  dplyr::mutate(
-    relevance2 = factor(dplyr::case_when(
-      score > 1 ~ "good",
-      TRUE ~ "bad"
-    ), c("bad", "good")),
-    relevance3 = factor(dplyr::case_when(
-      score < 1 ~ "bad",
-      score < 2 ~ "okay",
-      TRUE ~ "good"
-    ), c("bad", "okay", "good")),
-    relevance5 = factor(dplyr::case_when(
-      score == 0 ~ "worst",
-      score < 1 ~ "worse",
-      score < 2 ~ "okay",
-      score < 3 ~ "better",
-      score == 3 ~ "best"
-    ), c("worst", "worse", "okay", "better", "best"))
-  )
+scores <- readr::read_tsv(file.path(base_dir, "discernatron_scores.tsv"), col_types = "iidli") %>%
+  dplyr::mutate(Class = factor(score > 1, c(FALSE, TRUE), c("irrelevant", "relevant")))
 
 responses <- readr::read_tsv(file.path(base_dir, "survey_responses.tsv.gz"), col_types = "DicTiiic")
 

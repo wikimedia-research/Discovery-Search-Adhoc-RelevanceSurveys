@@ -1,0 +1,113 @@
+question,features,discernatron_reliable,accuracy,learner
+"If someone searched for '...', would they want to read this article?",survey-only,TRUE,0.8,models\keras-cache_42d469c92009.h5
+"If someone searched for '...', would they want to read this article?",survey & page info,TRUE,0.7793,models\keras-cache_42d41ab33849.h5
+"If someone searched for '...', would they want to read this article?",survey & traffic,TRUE,0.7966,models\keras-cache_42d47b664812.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",TRUE,0.7759,models\keras-cache_42d415531102.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",TRUE,0.7552,models\keras-cache_42d42ce4cc3.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",TRUE,0.7966,models\keras-cache_42d4596f243d.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,0.7655,models\keras-cache_42d413b82709.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",TRUE,0.7966,models\keras-cache_42d43df95729.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",TRUE,0.7241,models\keras-cache_42d46a711cf7.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,0.7897,models\keras-cache_42d430b6375c.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,0.769,models\keras-cache_42d43c577c42.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,0.7828,models\keras-cache_42d42ebf7d4c.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,0.7931,models\keras-cache_42d4585c64c4.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,0.7897,models\keras-cache_42d4d011ed5.h5
+"If you searched for '...', would this article be a good result?",survey-only,TRUE,0.7705,models\keras-cache_42d4178922fa.h5
+"If you searched for '...', would this article be a good result?",survey & page info,TRUE,0.7295,models\keras-cache_42d410be71b6.h5
+"If you searched for '...', would this article be a good result?",survey & traffic,TRUE,0.7842,models\keras-cache_42d41d791a86.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",TRUE,0.7774,models\keras-cache_42d4580a5e14.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",TRUE,0.6781,models\keras-cache_42d468d940ad.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",TRUE,0.8014,models\keras-cache_42d4124e20f5.h5
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,0.7911,models\keras-cache_42d433ef26d9.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",TRUE,0.7123,models\keras-cache_42d48c81ec6.h5
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",TRUE,0.2534,models\keras-cache_42d425101518.h5
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,0.7774,models\keras-cache_42d4770945d6.h5
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,0.7877,models\keras-cache_42d44f28349c.h5
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,0.7774,models\keras-cache_42d43376d8.h5
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,0.7877,models\keras-cache_42d42364a39.h5
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,0.7877,models\keras-cache_42d427c83965.h5
+"If you searched for '...', would this article be relevant?",survey-only,TRUE,0.7354,models\keras-cache_42d46bcdeb.h5
+"If you searched for '...', would this article be relevant?",survey & page info,TRUE,0.7423,models\keras-cache_42d4198c6a78.h5
+"If you searched for '...', would this article be relevant?",survey & traffic,TRUE,0.7216,models\keras-cache_42d4795444d.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",TRUE,0.7457,models\keras-cache_42d442a342f0.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",TRUE,0.6873,models\keras-cache_42d45fc72b22.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",TRUE,0.7216,models\keras-cache_42d439c35812.h5
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,0.646,models\keras-cache_42d41db471d0.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",TRUE,0.6254,models\keras-cache_42d42af56804.h5
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",TRUE,0.7079,models\keras-cache_42d46a3f4e0.h5
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",TRUE,0.7388,models\keras-cache_42d460152c53.h5
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",TRUE,0.7251,models\keras-cache_42d41e5f1b80.h5
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",TRUE,0.7457,models\keras-cache_42d419553c6e.h5
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,0.7354,models\keras-cache_42d4439e6201.h5
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,0.7354,models\keras-cache_42d435b929.h5
+Would you click on this page when searching for '...'?,survey-only,TRUE,0.6804,models\keras-cache_42d4649d3459.h5
+Would you click on this page when searching for '...'?,survey & page info,TRUE,0.7457,models\keras-cache_42d42b9c323b.h5
+Would you click on this page when searching for '...'?,survey & traffic,TRUE,0.732,models\keras-cache_42d42d8d68a2.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",TRUE,0.7079,models\keras-cache_42d4512a72c0.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",TRUE,0.7285,models\keras-cache_42d45cb72999.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",TRUE,0.7423,models\keras-cache_42d474e569b7.h5
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",TRUE,0.732,models\keras-cache_42d42f5611f.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",TRUE,0.732,models\keras-cache_42d446207985.h5
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",TRUE,0.6873,models\keras-cache_42d4143732bc.h5
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",TRUE,0.7045,models\keras-cache_42d4d87170.h5
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",TRUE,0.6907,models\keras-cache_42d447ff617.h5
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",TRUE,0.732,models\keras-cache_42d435953025.h5
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",TRUE,0.7732,models\keras-cache_42d449e5217f.h5
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",TRUE,0.7457,models\keras-cache_42d4231b6633.h5
+"If someone searched for '...', would they want to read this article?",survey-only,FALSE,0.6412,models\keras-cache_42d43a145466.h5
+"If someone searched for '...', would they want to read this article?",survey & page info,FALSE,0.6438,models\keras-cache_42d45dc0288e.h5
+"If someone searched for '...', would they want to read this article?",survey & traffic,FALSE,0.6596,models\keras-cache_42d47dcb31e1.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic",FALSE,0.628,models\keras-cache_42d487c230c.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-weekday",FALSE,0.6781,models\keras-cache_42d45fdd5b29.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform",FALSE,0.6385,models\keras-cache_42d42a1c3aeb.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,0.6807,models\keras-cache_42d41315a1c.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, and traffic-by-platform-and-weekday",FALSE,0.6517,models\keras-cache_42d445c1314a.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, pagesize, and pageviews",FALSE,0.6069,models\keras-cache_42d41942bbd.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,0.6702,models\keras-cache_42d4436155ac.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,0.6807,models\keras-cache_42d46a01ab0.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,0.6755,models\keras-cache_42d428444878.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,0.6623,models\keras-cache_42d42f6e9bf.h5
+"If someone searched for '...', would they want to read this article?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,0.7045,models\keras-cache_42d41f884d7b.h5
+"If you searched for '...', would this article be a good result?",survey-only,FALSE,0.6524,models\keras-cache_42d431e24e57.h5
+"If you searched for '...', would this article be a good result?",survey & page info,FALSE,0.6203,models\keras-cache_42d4529d2e64.h5
+"If you searched for '...', would this article be a good result?",survey & traffic,FALSE,0.623,models\keras-cache_42d464c97b0b.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic",FALSE,0.639,models\keras-cache_42d411ca2d47.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-weekday",FALSE,0.5535,models\keras-cache_42d428007a11.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform",FALSE,0.6524,models\keras-cache_42d44ca771b.h5
+"If you searched for '...', would this article be a good result?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,0.6818,models\keras-cache_42d44fb57c0.h5
+"If you searched for '...', would this article be a good result?","survey, page info, and traffic-by-platform-and-weekday",FALSE,0.6203,models\keras-cache_42d45aa063b.h5
+"If you searched for '...', would this article be a good result?","survey, page info, pagesize, and pageviews",FALSE,0.3663,models\keras-cache_42d41f421d18.h5
+"If you searched for '...', would this article be a good result?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,0.5775,models\keras-cache_42d4137924e9.h5
+"If you searched for '...', would this article be a good result?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,0.6551,models\keras-cache_42d474ef3a3a.h5
+"If you searched for '...', would this article be a good result?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,0.6444,models\keras-cache_42d437c43fc7.h5
+"If you searched for '...', would this article be a good result?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,0.6551,models\keras-cache_42d46f31ec.h5
+"If you searched for '...', would this article be a good result?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,0.6283,models\keras-cache_42d4296c585c.h5
+"If you searched for '...', would this article be relevant?",survey-only,FALSE,0.6489,models\keras-cache_42d442cc2f16.h5
+"If you searched for '...', would this article be relevant?",survey & page info,FALSE,0.6569,models\keras-cache_42d4742e6795.h5
+"If you searched for '...', would this article be relevant?",survey & traffic,FALSE,0.6303,models\keras-cache_42d42097947.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic",FALSE,0.6835,models\keras-cache_42d4261b4041.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-weekday",FALSE,0.7261,models\keras-cache_42d435fd531.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform",FALSE,0.7128,models\keras-cache_42d47817194.h5
+"If you searched for '...', would this article be relevant?","survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,0.6489,models\keras-cache_42d47d7c429.h5
+"If you searched for '...', would this article be relevant?","survey, page info, and traffic-by-platform-and-weekday",FALSE,0.6702,models\keras-cache_42d4465d19a5.h5
+"If you searched for '...', would this article be relevant?","survey, page info, pagesize, and pageviews",FALSE,0.391,models\keras-cache_42d45f291da8.h5
+"If you searched for '...', would this article be relevant?","survey, page info, log10-pagesize, and log10-pageviews",FALSE,0.6569,models\keras-cache_42d458f857f0.h5
+"If you searched for '...', would this article be relevant?","survey, page info, standardized pagesize, and standardized pageviews",FALSE,0.6755,models\keras-cache_42d4212a79cd.h5
+"If you searched for '...', would this article be relevant?","survey, page info, normalized pagesize, and normalized pageviews",FALSE,0.6676,models\keras-cache_42d47c4bfd4.h5
+"If you searched for '...', would this article be relevant?","survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,0.7074,models\keras-cache_42d4283a3bd8.h5
+"If you searched for '...', would this article be relevant?","survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,0.7101,models\keras-cache_42d4698b4b16.h5
+Would you click on this page when searching for '...'?,survey-only,FALSE,0.6187,models\keras-cache_42d48297cb0.h5
+Would you click on this page when searching for '...'?,survey & page info,FALSE,0.5787,models\keras-cache_42d47f40c5d.h5
+Would you click on this page when searching for '...'?,survey & traffic,FALSE,0.6213,models\keras-cache_42d4645a555e.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic",FALSE,0.5733,models\keras-cache_42d449c821b4.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-weekday",FALSE,0.584,models\keras-cache_42d420437990.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform",FALSE,0.576,models\keras-cache_42d45bd370b.h5
+Would you click on this page when searching for '...'?,"survey, page info, traffic-by-weekday, and traffic-by-platform",FALSE,0.608,models\keras-cache_42d45ff06217.h5
+Would you click on this page when searching for '...'?,"survey, page info, and traffic-by-platform-and-weekday",FALSE,0.5627,models\keras-cache_42d476e758b5.h5
+Would you click on this page when searching for '...'?,"survey, page info, pagesize, and pageviews",FALSE,0.4,models\keras-cache_42d45880769.h5
+Would you click on this page when searching for '...'?,"survey, page info, log10-pagesize, and log10-pageviews",FALSE,0.6213,models\keras-cache_42d43de55eb.h5
+Would you click on this page when searching for '...'?,"survey, page info, standardized pagesize, and standardized pageviews",FALSE,0.584,models\keras-cache_42d470a62c20.h5
+Would you click on this page when searching for '...'?,"survey, page info, normalized pagesize, and normalized pageviews",FALSE,0.5147,models\keras-cache_42d45b647348.h5
+Would you click on this page when searching for '...'?,"survey, page info, standardized log10-pagesize, and standardized log10-pageviews",FALSE,0.6293,models\keras-cache_42d4312a3779.h5
+Would you click on this page when searching for '...'?,"survey, page info, normalized log10-pagesize, and normalized log10-pageviews",FALSE,0.5573,models\keras-cache_42d45e7a7d4c.h5

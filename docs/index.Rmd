@@ -1,6 +1,6 @@
 ---
-title: "Search Relevance Surveys"
-subtitle: "Judging With Crowd-sourced Opinions and Machine Learning"
+title: "Search Relevance Surveys and Deep Learning"
+subtitle: "Turning Noisy, Crowd-sourced Opinions Into An Accurate Relevance Judgement"
 author:
   - "<a href='https://meta.wikimedia.org/wiki/User:EBernhardson_(WMF)'>Erik Bernhardson</a>"
   - "<a href='https://meta.wikimedia.org/wiki/User:TJones_(WMF)'>Trey Jones</a>"
@@ -8,7 +8,7 @@ author:
   - "<a href='https://meta.wikimedia.org/wiki/User:DTankersley_(WMF)'>Deb Tankersley</a>"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 abstract: >
-  ...
+  To improve the relevance of search results on Wikipedia and other Wikimedia Foundation projects, the Search Platform team has focused endeavor on ranking results with machine learning. The first iteration used a click-based model to create relevance labels. Here we present a way to augment that training data with a deep neural network (although other models are also considered) that can predict relevance of a wiki page to a specific search query based on users' responses to the question "If someone searched for ‘…’, would they want to read this article?". The model has over 90% accuracy when there are at least 40 responses and 100% accuracy when there are 70 or more responses. Once deployed, we can utilize users' responses to search relevance surveys and this model to create relevance labels for training the ranker.
 output:
   html_document:
     # Table of Contents
@@ -84,26 +84,15 @@ $("p.abstract").text("Executive Summary");
 
 ## Introduction
 
-### Discernatron
+Our current efforts to improve relevance of search results on Wikipedia and other Wikimedia Foundation projects are focused on information retrieval using [machine-learned ranking](https://en.wikipedia.org/wiki/Learning_to_rank) (MLR). In MLR, a model is trained to predict a document's relevance from various document-level and [query-level](https://en.wikipedia.org/wiki/Query_level_feature) features which represent the document. The first iteration used a click-based [Dynamic Bayesian Network](https://en.wikipedia.org/wiki/Dynamic_Bayesian_network) (implemented via [ClickModels](https://github.com/varepsilon/clickmodels) Python library) to create relevance labels for training data fed into [XGBoost](https://en.wikipedia.org/wiki/Xgboost). For further details, please refer to [*First assessment of learning-to-rank: testing machine-learned ranking of search results on English Wikipedia*](https://wikimedia-research.github.io/Discovery-Search-Test-InterleavedLTR/).
+
+To augment the click-based training data that the ranking model uses, we decided to try crowd-sourcing relevance opinions. [Our initial prototype](https://people.wikimedia.org/~bearloga/reports/search-surveys.html) showed promise, so we decided to up the scale. It was not feasible for us to manually grade thousands of pages to craft the golden standard, so instead we used a previously collected dataset of relevance scores from an earlier endeavor called Discernatron.
 
 ![Discernatron example](figures/example_discernatron.png)
 
-[Discernatron](https://www.mediawiki.org/wiki/Discernatron) is a search relevance tool developed by the Discovery department. Its goal is to help improve search relevance - showing articles that are most relevant to search queries - with human assistance. We asked for people to use Discernatron to review search suggestions across multiple search tools. Respondents will be presented a set of search results from four tools - [CirrusSearch](https://www.mediawiki.org/wiki/CirrusSearch) ([Wiki search](https://www.mediawiki.org/wiki/Help:Searching)), Bing, Google, and DuckDuckGo. For each query users will be provided the set of titles found asked to rank each title from 1 to 4, or leave the title unranked.
+[Discernatron](https://www.mediawiki.org/wiki/Discernatron) is a search relevance tool developed by the Search Platform team (formerly Discovery department). Its goal was to help improve search relevance - showing articles that are most relevant to search queries - with human assistance. We asked for people to use Discernatron to review search suggestions across multiple search tools and respondents were presented with a set of search results from four tools - [CirrusSearch](https://www.mediawiki.org/wiki/CirrusSearch) ([Wiki search](https://www.mediawiki.org/wiki/Help:Searching)), Bing, Google, and DuckDuckGo. For each query, users were provided with the set of titles found and asked to rank each title from 1 to 4, or leave the title unranked. For each query - result pair, we calculated an verage score. After examining the scores, we decided that a score 0-1 indicated the result was "irrelevant" and a score greater than 1 (up to a maximum of 3) indicated the result was "relevant". These are the labels we trained our model to predict.
 
-| Labels | Label  | Score Range |
-|:------:|:------:|:-----------:|
-| k = 2  | bad    | [0, 1)      |
-| k = 2  | good   | [1, 3]      |
-| k = 3  | bad    | [0, 1)      |
-| k = 3  | okay   | [1, 2)      |
-| k = 3  | good   | [2, 3]      |
-| k = 5  | worst  | 0           |
-| k = 5  | worse  | (0, 1)      |
-| k = 5  | okay   | [1, 2)      |
-| k = 5  | better | [2, 3)      |
-| k = 5  | best   | 3           |
-
-Table: How Discernatron scores were discretized into relevance labels.
+However, since graders have different opinions and some scores are calculated from more data than others, we separated the scores into those which are "reliable" and those which are "unreliable" based on whether the [Krippendorff's alpha](https://en.wikipedia.org/wiki/Krippendorff%27s_alpha) exceeded a threshold of 0.45. (Refer to [RelevanceScoring/Reliability.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/Reliability.php) and [RelevanceScoring/KrippendorffAlpha.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/KrippendorffAlpha.php) in Discernatron's source code for implementation details.)
 
 ## Methods
 
@@ -119,6 +108,11 @@ The classifiers trained are:
 
 In addition to the 7 classifiers listed above (which we will refer to as *base learners*), we also trained a super learner in a technique called *[stacking](https://en.wikipedia.org/wiki/Ensemble_learning#Stacking)*. The base learners are trained in the first stage and are then asked to make predictions. Those predictions are then used as features (one feature for each base learner) to train the super learner in the second stage. Specifically, we chose [Bayesian network](https://en.wikipedia.org/wiki/Bayesian_network) (via the [bnclassify](https://github.com/bmihaljevic/bnclassify) package) as the super learner, coded as "meta" in the Results tables.
 
+Furthermore, we trained a pair of *deeper* neural networks for binary classification. We utilized [Keras](https://en.wikipedia.org/wiki/Keras) with a [TensorFlow](https://en.wikipedia.org/wiki/TensorFlow) backend and performed the training separately from the others, which is why they are not included as base learners in the stacked training of a super learner. The results from these two models are coded as "keras-1" and "keras-2" in the Results tables and they are specified as follows:
+
+- **keras-1**: 3 hidden layers with 256, 128, and 64 units and [dropout](https://en.wikipedia.org/wiki/Dropout_(neural_networks)) of 50%, 20%, and 10%, respectively.
+- **keras-2**: 5 hidden layers with 128, 256, 128, 64, and 16 units and dropout of 50%, 50%, 50%, 25%, and 0%, respectively.
+
 We utilized the [caret](https://github.com/topepo/caret) package to perform hyperparameter tuning (via 5-fold cross-validation) and training (using 80% of the available data) of each base learner for a combination of each of the following:
 
 - 4 questions we asked:
@@ -126,10 +120,7 @@ We utilized the [caret](https://github.com/topepo/caret) package to perform hype
   - "If you searched for '...', would this article be a good result?"
   - "If you searched for '...', would this article be relevant?"
   - "Would you click on this page when searching for '...'?"
-- 3 types of response: 2 vs 3 vs 5 labels
 - 2 types of Discernatron scores that would be discretized into labels: *reliable* vs *unreliable*
-  - reliability based on [Krippendorff's alpha](https://en.wikipedia.org/wiki/Krippendorff%27s_alpha) exceeding a threshold of 0.45
-  - refer to [RelevanceScoring/Reliability.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/Reliability.php) and [RelevanceScoring/KrippendorffAlpha.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/KrippendorffAlpha.php) in Discernatron's source code for implementation details
 - 14 different feature sets:
   - **survey-only**
     - score summarizing users' responses
@@ -188,27 +179,34 @@ We utilized the [caret](https://github.com/topepo/caret) package to perform hype
 
 Standardization via means the predictor was centered around the mean and scaled by the standard deviation. Normalization was achieved via dividing by the maximum observed value and then subtracting 0.5 to center it around 0.
 
-To correct for class imbalance, instances were [upsampled](https://en.wikipedia.org/wiki/Oversampling_and_undersampling_in_data_analysis).
+To correct for class imbalance -- there were more irrelevant articles than relevant ones -- instances were [upsampled](https://en.wikipedia.org/wiki/Oversampling_and_undersampling_in_data_analysis). In the case of Keras-constructed DNNs, we specified class weights such that the model paid slightly more attention to the less-represented "relevant" articles.
 
 ## Results
 
 ```{r accuracy_data}
-model_accuracy <- readr::read_tsv(file.path("..", "models", "model-accuracy.tsv"))
-model_accuracy$features %<>% factor
-model_accuracy$classifier %<>% factor
-# model_accuracy$classifier %<>% factor(
-#   c("meta", "multinom", "nb", "nnet", "dnn", "rf", "xgbTree", "C5.0"),
-#   c("Meta (Bayesian Network)", "Logistic Regression", "Naive Bayes", "Shallow Neural Network", "Deep Neural Network", "Random Forest", "XGB trees", "C5.0 trees")
-# )
-model_accuracy$classes %<>% factor
+model_accuracy <- readr::read_csv(file.path("..", "models", "model-accuracy.csv"))
+keras_accuracy_1 <- readr::read_csv(file.path("..", "models", "keras-index-legacy.csv")) %>%
+  dplyr::mutate(classifier = "keras-1") %>%
+  dplyr::select(-learner) %>%
+  { .[, names(model_accuracy)] }
+keras_accuracy_2 <- readr::read_csv(file.path("..", "models", "keras-index.csv")) %>%
+  dplyr::mutate(classifier = "keras-2") %>%
+  dplyr::select(-learner) %>%
+  { .[, names(model_accuracy)] }
+model_accuracy <- model_accuracy %>%
+  rbind(keras_accuracy_1) %>%
+  rbind(keras_accuracy_2) %>%
+  dplyr::mutate(
+    features = factor(features),
+    classifier = factor(classifier)
+  )
+rm(keras_accuracy_1, keras_accuracy_2)
 ```
 
 ### Marginal accuracies
 
-```{r avg_question_accuracy, fig.width=12, fig.height=5}
-
+```{r avg_question_accuracy, fig.width=12, fig.height=5, fig.cap="Models trained on reliable Discernatron scores have higher accuracy than models trained on unreliable Discernatron scores. The neutral question of \"If someone...\" worked better than the other questions which were aimed at the user."}
 model_accuracy %>%
-  dplyr::filter(classes == 2) %>%
   dplyr::mutate(Reliability = dplyr::if_else(discernatron_reliable, "Reliable", "Unreliable")) %>%
   dplyr::group_by(Question = question, Reliability) %>%
   dplyr::summarize(
@@ -230,7 +228,7 @@ model_accuracy %>%
     limits = c(0, 1), breaks = seq(0, 1, 0.1),
     labels = scales::percent_format()
   ) +
-  scale_color_brewer(palette = "Set1") +
+  scale_color_brewer(palette = "Set1", direction = -1) +
   coord_flip() +
   labs(
     x = NULL, y = "Accuracy", color = "Discernatron score reliability",
@@ -244,54 +242,14 @@ model_accuracy %>%
   wmf::theme_min(14, "Source Sans Pro")
 ```
 
-```{r avg_feature_accuracy, fig.width=12, fig.height=7}
+```{r avg_classifier_accuracy, results='asis'}
 model_accuracy %>%
-  dplyr::filter(classes == 2) %>%
-  dplyr::mutate(Reliability = dplyr::if_else(discernatron_reliable, "Reliable", "Unreliable")) %>%
-  dplyr::group_by(Features = features, Reliability) %>%
-  dplyr::summarize(
-    median = median(accuracy),
-    minimum = min(accuracy),
-    maximum = max(accuracy)
-  ) %>%
-  dplyr::ungroup() %>%
-  ggplot(aes(x = Features, color = Reliability)) +
-  geom_linerange(
-    aes(ymin = minimum, ymax = maximum),
-    position = position_dodge(width = 0.8)
-  ) +
-  geom_label(
-    aes(y = median, label = sprintf("%.1f%%", 100 * median)),
-    position = position_dodge(width = 0.8),
-    size = 4, label.padding = unit(0.15, "lines")
-  ) +
-  scale_y_continuous(
-    limits = c(0, 1), breaks = seq(0, 1, 0.1),
-    labels = scales::percent_format()
-  ) +
-  scale_color_brewer(palette = "Set1") +
-  coord_flip() +
-  labs(
-    x = NULL, y = "Accuracy", color = "Discernatron score reliability",
-    title = "Performance by feature set and Discernatron score reliability",
-    subtitle = paste(
-      "Binary classification accuracy averaged across",
-      prod(dim(table(model_accuracy$question, model_accuracy$classifier))),
-      "question-classifier combinations"
-    )
-  ) +
-  wmf::theme_min(14, "Source Sans Pro")
-```
-
-```{r avg_stage_accuracy, results='asis'}
-model_accuracy %>%
-  dplyr::filter(classes == 2) %>%
   dplyr::mutate(
     Reliability = dplyr::if_else(discernatron_reliable, "Reliable Discernatron score", "Unreliable Discernatron score"),
     Classifier = factor(
       classifier,
-      levels = c("multinom", "nnet", "dnn", "nb", "rf", "xgbTree", "C5.0", "meta"),
-      labels = c("Logistic Regression (multinom)", "Shallow Neural Network (nnet)", "Deep Neural Network (dnn)", "Naive Bayes (nb)", "Random Forest (rf)", "Gradient-boosted Trees (xgbTree)", "C5.0 trees", "Bayesian Network super learner (meta)")
+      levels = c("multinom", "nnet", "dnn", "keras-1", "keras-2", "nb", "rf", "xgbTree", "C5.0", "meta"),
+      labels = c("Logistic Regression (multinom)", "Shallow NN (nnet)", "Deep NN (dnn)", "Deeper NN (keras-1)", "Much Deeper NN (keras-2)", "Naive Bayes (nb)", "Random Forest (rf)", "Gradient-boosted Trees (xgbTree)", "C5.0 trees", "Bayesian Network super learner (meta)")
     )
   ) %>%
   dplyr::group_by(Classifier, Reliability) %>%
@@ -302,6 +260,106 @@ model_accuracy %>%
 ```
 
 Table: Binary classification performance by classifier and Discernatron score reliability, with accuracy averaged across `r prod(dim(table(model_accuracy$question, model_accuracy$features)))` question-feature set combinations.
+
+### Meta analysis
+
+In this section, we fit a beta regression model of classification performance to the different components to help us see the impact of each component. We chose beta regression because accuracy is a value between 0 and 1, and this family of models enables us to work with that without transforming the response variable.
+
+```{r meta_table}
+# install.packages("betareg")
+accuracies <- model_accuracy %>%
+  dplyr::transmute(
+    accuracy = accuracy,
+    reliability_reliable = as.numeric(discernatron_reliable),
+    classifier_ = relevel(classifier, ref = "nb"),
+    features_ = relevel(features, ref = "survey-only"),
+    question_ = relevel(factor(question), ref = "If you searched for '...', would this article be relevant?")
+  )
+fit <- betareg::betareg(accuracy ~ reliability_reliable + classifier_ + features_ + question_, data = accuracies)
+coefs <- broom::tidy(fit) %>%
+  dplyr::filter(component == "mean") %>%
+  dplyr::select(-c(component, statistic, std.error, p.value))
+coefs <- strsplit(coefs$term, "_") %>%
+  purrr::map(~ dplyr::data_frame(component = .x[1], candidate = .x[2])) %>%
+  dplyr::bind_rows() %>%
+  cbind(coefs)
+coefs$candidate[coefs$component == "(Intercept)"] <- "nb on responses to \"If you searched for '...', would this article be relevant?\""
+coefs %>%
+  dplyr::filter(component %in% c("(Intercept)", "reliability")) %>%
+  dplyr::select(-c(term, candidate)) %>%
+  knitr::kable(format = "markdown", digits = 4)
+```
+
+Table: Coefficient estimates from a beta regression model with classifier accuracy as response and the following as predictors: (1) classifier, (2) feature set, (3) question asked. The baseline (intercept) is Naive Bayes classifier trained solely on responses to the question "If you searched for '...', would this article be relevant?" Everything else is in reference to the baseline. Coefficient estimates for classifiers, feature sets, and questions are omitted from this table and are instead visualized in the figure below.
+
+```{r meta_figure, fig.cap="The baseline (intercept) is Naive Bayes classifier trained solely on responses to the question \"If you searched for '...', would this article be relevant?\" Coefficient estimates for the intercept and reliability (shown in the table above) have been omitted from the figure for clarity."}
+ggplot(
+  dplyr::filter(coefs, !component %in% c("(Intercept)", "reliability")),
+  aes(x = reorder(candidate, as.numeric(factor(term))), y = estimate)
+) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_point() +
+  scale_y_continuous(breaks = c(-0.25, 0, 0.5), minor_breaks = NULL, labels = function(x) {
+    return(dplyr::case_when(
+      x < 0 ~ "worse\naccuracy",
+      x > 0 ~ "better\naccuracy",
+      TRUE ~ "0.0"
+    ))
+  }) +
+  coord_flip() +
+  facet_wrap(~ component, nrow = 1) +
+  labs(
+    x = "Coefficient Estimate", y = NULL,
+    title = "Effect of classifier, feature set, and question asked on accuracy",
+    caption = "An estimate less than 0 causes the accuracy to decrease, while an estimate greater than 0 causes the accuracy to increase."
+  ) +
+  wmf::theme_facet(14, "Source Sans Pro")
+```
+
+After looking at the results of the beta regression in the table and figure, we came to the following conclusions:
+
+- We should use reliable Discernatron scores, as that improved accuracy.
+- Asking the neutrally phrased question "If *someone* searched for '...', would they want to read this article?" lead to much better accuracy than the other questions which were directed at the user ("Would *you*...", "If *you* searched...").
+- Using the deep neural network "keras-1" improved accuracy more than using other classifiers.
+- Compared to just using survey responses, incorporating traffic data (in the form of categories such as "high", "medium", and "low") slightly improved accuracy on average.
+- Including page info (e.g. an indicator of whether it's a Category or Talk page and the page size) did *not* help on average.
+- Including pageview traffic (transformed, normalized, or otherwise) with page info had no impact on accuracy.
+
+### Responses required
+
+```{r, fig.cap="Relationship between number of survey responses to relevance prediction accuracy of keras-1 trained to predict reliable Discernatron scores just from responses to question \"If someone searched for '...', would they want to read this article?\""}
+per_page_accuracy <- readr::read_csv(file.path("..", "models", "per-page-accuracy.csv")) %>%
+  tidyr::gather("model", "correct", -c(question, reliable, times_asked, responses, prop_unsure))
+per_bin_accuracy <- per_page_accuracy %>%
+  dplyr::filter(
+    question == "If someone searched for '...', would they want to read this article?",
+    reliable, model == "keras-1"
+  ) %>%
+  dplyr::mutate(bin = pmin(100, floor(responses / 10) * 10)) %>%
+  dplyr::select(bin, correct)
+cumulative_accuracy <- dplyr::bind_rows(lapply(set_names(seq(0, 100, 10), paste0(seq(0, 100, 10), "+")), function(lower_bound) {
+  return(data.frame(accuracy = mean(per_bin_accuracy$correct[per_bin_accuracy$bin >= lower_bound])))
+}), .id = "bin") %>%
+  dplyr::mutate(bin = factor(bin, paste0(seq(0, 100, 10), "+")))
+ggplot(cumulative_accuracy, aes(x = bin, y = accuracy)) +
+  geom_bar(stat = "identity") +
+  geom_text(
+    aes(label = sprintf("%.2f%%", 100 * accuracy)),
+    color = "white", vjust = "top", nudge_y = -0.01
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format(),
+    breaks = seq(0, 1, 0.1)
+  ) +
+  labs(
+    x = "Responses", y = "Accuracy",
+    title = "Classification performance by number of responses to survey",
+    subtitle = "keras-1 trained to predict reliable Discernatron scores just from responses to question \"If someone searched for '...', would they want to read this article?\""
+  ) +
+  wmf::theme_min(14, "Source Sans Pro")
+```
+
+The model's performance increases as we collect more responses to calculate the score from -- the model is very accurate with at least 40 yes/no/unsure/dismiss responses and the most accurate with at least 70 responses. That is, we do not necessarily need to wait until we obtain at least 70 responses from users before we request a relevance prediction from the model, but we should wait until we have at least 40.
 
 ### Accuracies by question
 
@@ -320,10 +378,10 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"If someone searched for '...', would they want to read this article?\" and relevance labels based on reliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
 ##### Unreliable Scores
@@ -339,10 +397,10 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"If someone searched for '...', would they want to read this article?\" and relevance labels based on unreliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
 #### Question 2
@@ -360,10 +418,10 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be a good result?\" and relevance labels based on reliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
 ##### Unreliable Scores
@@ -379,10 +437,10 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be a good result?\" and relevance labels based on unreliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
 #### Question 3
@@ -400,10 +458,10 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be relevant?\" and relevance labels based on reliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
 ##### Unreliable Scores
@@ -419,10 +477,10 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"If you searched for '...', would this article be relevant?\" and relevance labels based on unreliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
 #### Question 4
@@ -440,10 +498,10 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"Would you click on this page when searching for '...'?\" and relevance labels based on reliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
 ##### Unreliable Scores
@@ -459,12 +517,34 @@ DT::datatable(
   extensions = "Buttons",
   options = list(
     pageLength = 10, autoWidth = TRUE, language = list(search = "Filter:"),
-    order = list(list(4, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
+    order = list(list(3, "desc")), dom = "Bfrtip", buttons = c("copy", "csv")
   ),
   caption = "Accuracy of models trained on responses to the question \"Would you click on this page when searching for '...'?\" and relevance labels based on unreliable Discernatron scores."
-) %>% DT::formatPercentage("accuracy", 3)
+) %>% DT::formatPercentage("accuracy", 2)
 ```
 
-## Discussion
+## Conclusion & Discussion
 
-## References
+By deploying "keras-1" trained just on survey responses to "If someone searched for...", we will be able to classify a wiki page as relevant or irrelevant to a specific search query. In order to use the model to augment the training data for the ranking model, we should wait until we have at least 40 responses, but preferably until we have at least 70. Once we have sufficient number of responses, we can request a probability of relevance and then map that to a 0-10 scale that the ranking model expects.
+
+The model can also be easily included in the pipeline for *MjoLniR* -- our Python and Spark-based library for handling the backend data processing for Machine Learned Ranking at Wikimedia -- because the final model was created with the Python-based Keras. Furthermore, since the final model uses only the survey response data and does not include additional data such as traffic or information about the page, the pipeline simply needs to calculate a score from users' yes/no responses, the proportion of users who were unsure, and users' engagement (responses/impressions) with the survey.
+
+Finally, it would be interesting to evaluate how robust the models are to predicting relevance using response data from questions other than the one the model was trained with. For example, how well does the model trained on responses to "If someone searched for..." perform when it's given responses to "If you searched for..."?
+
+## References & Software
+
+- R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. Software available from https://r-project.org
+- Abadi, M. and others (2015). TensorFlow: Large-scale machine learning on heterogeneous systems. Software available from https://tensorflow.org
+- Allaire, J.J. and Yuan Tang, Y. (2017). tensorflow: R Interface to 'TensorFlow'. R package available from https://tensorflow.rstudio.com
+- Chollet, F. and others (2015). Keras. Software available from https://keras.io
+- Allaire, J.J. and Chollet, F. (2017). keras: R Interface to 'Keras'. R package available from https://keras.rstudio.com
+- Kuhn, M. (2017). caret: Classification and Regression Training. R package available from https://cran.r-project.org/package=caret
+- Cribari-Neto, F. and Zeileis, A. (2010). Beta Regression in R. Journal of Statistical Software 34(2), 1-24. URL: https://www.jstatsoft.org/v34/i02/.
+- Meyer, M., Dimitriadou, E., Hornik, K., Weingessel, A., and Leisch, F. (2017). e1071: Misc Functions of the Department of Statistics, Probability Theory Group (Formerly: E1071), TU Wien. R package available from https://cran.r-project.org/package=e1071
+- Bojan, M., Concha, B., and Pedro, L. (2017). bnclassify: Learning Discrete Bayesian Network Classifiers from Data. R package available from https://cran.r-project.org/package=bnclassify
+- Chen, T., He, T., Benesty, M., Khotilovich, V. and Tang, Y. (2017). xgboost: Extreme Gradient Boosting. R package available from https://cran.r-project.org/package=xgboost
+- Kuhn, K., Weston, S., Coulter, N., and Culp, M. C code for C5.0 by R. Quinlan (2015). C50: C5.0 Decision Trees and Rule-Based Models. R package available from https://cran.r-project.org/package=C50
+- Weihs, C., Ligges, U., Luebke, K. and Raabe, N. (2005). klaR Analyzing German Business Cycles. In Baier, D., Decker, R. and Schmidt-Thieme, L. (eds.). Data Analysis and Decision Support, 335-343, Springer-Verlag, Berlin.
+- A. Liaw and M. Wiener (2002). Classification and Regression by randomForest. R News 2(3), 18--22. R package available from https://cran.r-project.org/package=randomForest
+- Rong, X. (2014). deepnet: deep learning toolkit in R. R package available from https://cran.r-project.org/package=deepnet
+- Wickham, H., Francois, R., Henry, L. and Müller, K. (2017). dplyr: A Grammar of Data Manipulation. R package available from https://cran.r-project.org/package=dplyr

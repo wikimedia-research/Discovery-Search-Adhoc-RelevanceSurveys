@@ -23,14 +23,7 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
-docs/index_cache
-
-docs/index_files/
-
 data/all.json
-
-models/model-cache*.rds
-
-models/model-index.csv
-
 *.rds
+
+*.h5
