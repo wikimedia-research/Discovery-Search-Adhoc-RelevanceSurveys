@@ -25,5 +25,4 @@ vignettes/*.pdf
 .Rproj.user
 data/all.json
 *.rds
-
-*.h5
+models/*.h5
