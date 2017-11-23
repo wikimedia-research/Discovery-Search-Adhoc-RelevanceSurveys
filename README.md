@@ -36,13 +36,17 @@ install.packages("betareg")
 ## Scripts
 
 1. **Data**
-  - [pageviews.R](pageviews.R) uses the Wikimedia Analytics Pageviews API to fetch a month worth of daily pageview counts for the relevant articles
-  - [events.R](events.R) fetches the survey data from Event Logging database
-  - [discernatron.R](discernatron.R) fetches relevance scores from Discernatron's API
-  - [data.R](data.R) combines fetched pageviews, survey data, and Discernatron scores into complete datasets
+    - [pageviews.R](pageviews.R) uses the Wikimedia Analytics Pageviews API to fetch a month worth of daily pageview counts for the relevant articles
+    - [events.R](events.R) fetches the survey data from Event Logging database
+    - [discernatron.R](discernatron.R) fetches relevance scores from Discernatron's API
+    - [data.R](data.R) combines fetched pageviews, survey data, and Discernatron scores into complete datasets
 2. **Model Tuning & Training** via [models.R](models.R)
-  - Outputs `models/model-index.csv`
-  - [keras.R](keras.R) has the code for training a deep neural network with Keras and outputs `models/keras-index.csv`
+    - Outputs `models/model-index.csv`
+    - [keras.R](keras.R) has the code for training a deep neural network with Keras and outputs `models/keras-index.csv`
 3. **Model Evaluation** via [evaluate.R](evaluate.R)
-  - Outputs `models/model-accuracy.csv`
-  - **Note** that [keras.R](keras.R) computes accuracy as part of the training process
+    - Outputs `models/model-accuracy.csv`
+    - **Note** that [keras.R](keras.R) computes accuracy as part of the training process
+
+## Production
+
+To use the final model for predicting relevance of any query-page combination from users' survey responses, please refer to [these instructions](production).
