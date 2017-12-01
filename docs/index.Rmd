@@ -90,7 +90,7 @@ To augment the click-based training data that the ranking model uses, we decided
 
 ![Discernatron example](figures/example_discernatron.png)
 
-[Discernatron](https://www.mediawiki.org/wiki/Discernatron) is a search relevance tool developed by the Search Platform team (formerly Discovery department). Its goal was to help improve search relevance - showing articles that are most relevant to search queries - with human assistance. We asked for people to use Discernatron to review search suggestions across multiple search tools and respondents were presented with a set of search results from four tools - [CirrusSearch](https://www.mediawiki.org/wiki/CirrusSearch) ([Wiki search](https://www.mediawiki.org/wiki/Help:Searching)), Bing, Google, and DuckDuckGo. For each query, users were provided with the set of titles found and asked to rank each title from 1 to 4, or leave the title unranked. For each query - result pair, we calculated an verage score. After examining the scores, we decided that a score 0-1 indicated the result was "irrelevant" and a score greater than 1 (up to a maximum of 3) indicated the result was "relevant". These are the labels we trained our model to predict.
+[Discernatron](https://www.mediawiki.org/wiki/Discernatron) is a search relevance tool developed by the [Search Platform team](https://www.mediawiki.org/wiki/Wikimedia_Technology#Search_Platform) (formerly [Discovery department](https://www.mediawiki.org/wiki/Wikimedia_Discovery)). Its goal was to help improve search relevance - showing articles that are most relevant to search queries - with human assistance. We asked for people to use Discernatron to review search suggestions across multiple search tools and respondents were presented with a set of search results from four tools - [CirrusSearch](https://www.mediawiki.org/wiki/CirrusSearch) ([Wiki search](https://www.mediawiki.org/wiki/Help:Searching)), Bing, Google, and DuckDuckGo. For each query, users were provided with the set of titles found and asked to rank each title from 1 to 4, or leave the title unranked. For each query - result pair, we calculated an verage score. After examining the scores, we decided that a score 0-1 indicated the result was "irrelevant" and a score greater than 1 (up to a maximum of 3) indicated the result was "relevant". These are the labels we trained our model to predict.
 
 However, since graders have different opinions and some scores are calculated from more data than others, we separated the scores into those which are "reliable" and those which are "unreliable" based on whether the [Krippendorff's alpha](https://en.wikipedia.org/wiki/Krippendorff%27s_alpha) exceeded a threshold of 0.45. (Refer to [RelevanceScoring/Reliability.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/Reliability.php) and [RelevanceScoring/KrippendorffAlpha.php](https://github.com/wikimedia/wikimedia-discovery-discernatron/blob/master/src/RelevanceScoring/KrippendorffAlpha.php) in Discernatron's source code for implementation details.)
 
@@ -116,10 +116,10 @@ Furthermore, we trained a pair of *deeper* neural networks for binary classifica
 We utilized the [caret](https://github.com/topepo/caret) package to perform hyperparameter tuning (via 5-fold cross-validation) and training (using 80% of the available data) of each base learner for a combination of each of the following:
 
 - 4 questions we asked:
-  - "If someone searched for '...', would they want to read this article?"
-  - "If you searched for '...', would this article be a good result?"
-  - "If you searched for '...', would this article be relevant?"
-  - "Would you click on this page when searching for '...'?"
+    - "If someone searched for '...', would they want to read this article?"
+    - "If you searched for '...', would this article be a good result?"
+    - "If you searched for '...', would this article be relevant?"
+    - "Would you click on this page when searching for '...'?"
 - 2 types of Discernatron scores that would be discretized into labels: *reliable* vs *unreliable*
 - 14 different feature sets:
   - **survey-only**
