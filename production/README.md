@@ -34,6 +34,37 @@ model = keras.models.load_model('relevance-classifier.h5')
 model.predict(features)
 ```
 
+### Predicting Rank
+
+The predictions returned will be on the scale 0.0-1.0, although we've observed the maximum to be 0.75 in practice. So what we could do is restrict the predicted probabilities to [0.25, 0.75] and then map those to [0, 1] and map those to a 1-10 ranking (which the ranking learner expects as response in the training data). When we compare the predicted ranks (using this mapping system) with Discernatron scores, we get remarkably good results all things considered:
+
+![Comparison of Discernatron scores and predicted rankings](plot.png)
+
+See [T175048#3852241](https://phabricator.wikimedia.org/T175048#3852241) for more details.
+
+The following function accomplishes this:
+
+```python
+import numpy as np
+
+def prob2rank(probs, old_min=0.25, old_max=0.75):
+  new_min = 1e-6
+  new_max = 1
+  restricted = np.minimum(np.maximum(probs, old_min), old_max)
+  rescaled = ((new_max - new_min) * (restricted - old_min) / (old_max - old_min)) + new_min
+  rankings = np.ceil(10 * rescaled)
+  return rankings
+```
+
+Then we can use it as follows:
+
+```python
+predicted_probabilities = model.predict(features)
+prob2rank(predicted_probabilities)
+```
+
+## Evaluation
+
 The performance of the model on the example data can also be evaluated as follows:
 
 ```python
